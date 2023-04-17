@@ -28,8 +28,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.delete');
 
-    Route::resource('posts', App\Http\Controllers\PostController::class);
-
     Route::resource('permissions', App\Http\Controllers\PermissionController::class);
     Route::resource('roles', App\Http\Controllers\RoleController::class);
 });

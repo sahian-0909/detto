@@ -22,11 +22,10 @@ class RoleHasPermissionSeeder extends Seeder
         Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
 
         // User
-        // $user_permissions = $admin_permissions->filter(function($permission) {
-        //     return substr($permission->name, 0, 5) != 'user_' &&
-        //         substr($permission->name, 0, 5) != 'role_' &&
-        //         substr($permission->name, 0, 11) != 'permission_';
-        // });
-        // Role::findOrFail(2)->permissions()->sync($user_permissions);
+        $user_permissions = $admin_permissions->filter(function($permission) {
+            return substr($permission->name, 0, 5) != 'role_' &&
+                substr($permission->name, 0, 11) != 'permission_';
+        });
+        Role::findOrFail(2)->permissions()->sync($user_permissions);
     }
 }
