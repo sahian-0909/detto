@@ -27,20 +27,14 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        // $request->validate([
-        //     'name' => 'required|min:3|max:5',
-        //     'username' => 'required',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required'
-        // ]);
-        $user = User::create($request->only('name', 'username', 'email')
+        $user = User::create($request->only('name', 'username', 'app', 'apm', 'email', 'telefono', 'sexo')
             + [
                 'password' => bcrypt($request->input('password')),
             ]);
 
         $roles = $request->input('roles', []);
         $user->syncRoles($roles);
-        return redirect()->route('users.show', $user->id)->with('success', 'Usuario creado correctamente');
+        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente');
     }
 
     public function show(User $user)

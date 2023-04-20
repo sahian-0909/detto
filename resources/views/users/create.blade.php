@@ -1,63 +1,53 @@
-@extends('layouts.main', ['activePage' => 'users', 'titlePage' => 'Nuevo usuario'])
-@section('content')
-<div class="content">
-  <div class="container-fluid">
+@extends('layouts.admin')
+@section('titulo', 'Empleados')
+@section('contenido')
+<form action="{{route('users.store')}}" method="post"  enctype="multipart/form-data">
+    @csrf
     <div class="row">
-      <div class="col-md-12">
-        <form action="{{ route('users.store') }}" method="post" class="form-horizontal">
-          @csrf
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Usuario</h4>
-              <p class="card-category">Ingresar datos</p>
-            </div>
-            <div class="card-body">
-              {{-- @if ($errors->any())
-                  <div class="alert alert-danger">
-                    <ul>
-                      @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                      @endforeach
-                    </ul>
-                  </div>
-              @endif --}}
-              <div class="row">
-                <label for="name" class="col-sm-2 col-form-label">Nombre</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control" name="name" placeholder="Ingrese su nombre" value="{{ old('name') }}" autofocus>
-                  @if ($errors->has('name'))
-                    <span class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
-                  @endif
-                </div>
-              </div>
-              <div class="row">
-                <label for="username" class="col-sm-2 col-form-label">Nombre de usuario</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control" name="username" placeholder="Ingrese su nombre de usuario" value="{{ old('username') }}">
-                  @if ($errors->has('username'))
-                    <span class="error text-danger" for="input-username">{{ $errors->first('username') }}</span>
-                  @endif
-                </div>
-              </div>
-              <div class="row">
-                <label for="email" class="col-sm-2 col-form-label">Correo</label>
-                <div class="col-sm-7">
-                  <input type="email" class="form-control" name="email" placeholder="Ingrese su correo" value="{{ old('email') }}">
-                  @if ($errors->has('email'))
-                    <span class="error text-danger" for="input-email">{{ $errors->first('email') }}</span>
-                  @endif
-                </div>
-              </div>
-              <div class="row">
-                <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
-                <div class="col-sm-7">
-                  <input type="password" class="form-control" name="password" placeholder="Contraseña">
-                  @if ($errors->has('password'))
-                    <span class="error text-danger" for="input-password">{{ $errors->first('password') }}</span>
-                  @endif
-                </div>
-              </div>
-              <div class="row">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="username" class="form-label">Nombre de usuario* </label>
+            <input type="text" class="form-control" name="username" id="username">
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="name" class="form-label">Nombre(s) del empleado * </label>
+            <input type="text" class="form-control" name="name" id="name">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="app" class="form-label">Apellido Paterno *</label>
+            <input type="text" class="form-control" name="app" id="app">
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="apm" class="form-label">Apellido Materno </label>
+            <input type="text" class="form-control" name="apm" id="apm">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="email" class="form-label">Correo electrónico*</label>
+            <input type="email" class="form-control" name="email" id="email">
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="password" class="form-label">Contraseña* </label>
+            <input type="password" class="form-control" name="password" id="password">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="telefono" class="form-label">*Teléfono</label>
+            <input type="tel" class="form-control" name="telefono" id="telefono">
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="sexo" class="form-label">Sexo:</label>
+            <br>
+            <input type="radio" name="sexo" value="FEMENINO" />
+            <label>Femenino</label>
+            <input type="radio" name="sexo" value="MASCULINO" />
+            <label>Masculino</label>
+        </div>
+    </div>
+    <div class="row">
                 <label for="roles" class="col-sm-2 col-form-label">Roles</label>
                 <div class="col-sm-7">
                     <div class="form-group">
@@ -91,16 +81,14 @@
                     </div>
                 </div>
             </div>
-            </div>
-            <!--Footer-->
-            <div class="card-footer ml-auto mr-auto">
-              <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-            <!--End footer-->
-          </div>
-        </form>
-      </div>
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <input type="submit" value="Guardar Datos" class="btn btn-success">
+        </div>
+        <div class="col-4">
+            <input type="reset" value="Cancelar Registro" class="btn btn-danger">
+        </div>
     </div>
-  </div>
-</div>
+</form>
 @endsection

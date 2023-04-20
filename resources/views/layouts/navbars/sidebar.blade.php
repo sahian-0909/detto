@@ -5,7 +5,7 @@
       Tip 2: you can also add an image using data-image tag
   -->
   <div class="logo">
-    <a href="{{ route('home') }}" class="simple-text logo-normal">
+    <a href="{{ route('inicio') }}" class="simple-text logo-normal">
       Detto
     </a>
   </div>
@@ -14,7 +14,7 @@
       <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons">dashboard</i>
-            <p>{{ __('Dashboard') }}</p>
+            <p>Panel Detto</p>
         </a>
       </li>
       @can('user_index')
@@ -25,6 +25,16 @@
         </a>
       </li>
       @endcan
+
+      @can('cliente_index')
+      <li class="nav-item{{ $activePage == 'users' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ url('clientes/') }}">
+          <i class="material-icons">content_paste</i>
+            <p>Clientes</p>
+        </a>
+      </li>
+      @endcan
+     
       @can('permission_index')
       <li class="nav-item{{ $activePage == 'permissions' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('permissions.index') }}">

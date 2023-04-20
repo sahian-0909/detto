@@ -15,6 +15,10 @@ class AddUsernameToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('username')->unique();
+            $table->string('app');
+            $table->string('apm');
+            $table->enum('sexo',['MASCULINO', 'FEMENINO']);
+            $table->string('telefono', 12)->comment('telefono');
         });
     }
 

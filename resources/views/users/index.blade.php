@@ -1,86 +1,57 @@
-@extends('layouts.main', ['activePage' => 'users', 'titlePage' => 'Usuarios'])
-@section('content')
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card">
-                  <div class="card-header card-header-primary">
-                    <h4 class="card-title">Usuarios</h4>
-                    <p class="card-category">Usuarios registrados</p>
-                  </div>
-                  <div class="card-body">
-                    @if (session('success'))
-                    <div class="alert alert-success" role="success">
-                      {{ session('success') }}
-                    </div>
-                    @endif
-                    <div class="row">
-                      <div class="col-12 text-right">
-                        @can('user_create')
-                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-facebook">Añadir usuario</a>
-                        @endcan
-                      </div>
-                    </div>
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead class="text-primary">
-                          <th>ID</th>
-                          <th>Nombre</th>
-                          <th>Correo</th>
-                          <th>Username</th>
-                          <th>Full Name</th>
-                          <th>Roles</th>
-                          <th class="text-right">Acciones</th>
-                        </thead>
-                        <tbody>
-                          @foreach ($users as $user)
-                            <tr>
-                              <td>{{ $user->id }}</td>
-                              <td>{{ $user->name }}</td>
-                              <td>{{ $user->email }}</td>
-                              <td>{{ $user->username }}</td>
-                              <td>{{ $user->fullname }}</td>
-                              <td>
-                                  @forelse ($user->roles as $role)
-                                    <span class="badge badge-info">{{ $role->name }}</span>
-                                  @empty
-                                    <span class="badge badge-danger">No roles</span>
-                                  @endforelse
-                                </td>
-                              <td class="td-actions text-right">
-                                @can('user_show')
-                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-info"><i class="material-icons">person</i></a>
-                                @endcan
-                                @can('user_edit')
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning"><i class="material-icons">edit</i></a>
-                                @endcan
-                                @can('user_destroy')
-                                <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Seguro?')">
+@extends('layouts.admin')
+@section('titulo', 'Empleados')
+@section('contenido')
+<div class="row my-1">
+    <div class="col-9">
+        <h3 class="fs-4 mb-3">Listado de empleados</h3>
+    </div>
+    <div class="col-2">
+      <a href="{{route('users.create')}}" class="btn btn-sm btn-success">Agregar</i></a>
+    </div>
+    <!-- <div class="col-1">
+        <a href="{{url('userspdf')}}" class="btn btn-sm btn-danger"><i class="fa-solid fa-download"></i></a>
+    </div> -->
+</div>
+<div class="row my-1">
+    <div class="col">
+        <table class="table bg-white rounded shadow-sm  table-hover table-sm">
+            <thead class="text-center">
+                <tr>
+                    <th scope="col" width="50">#</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Correo electrónico</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @foreach ($users as $user)
+                <tr class="text-center">
+                    <th scope="row">{{ $user->id }}</th>
+                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->name }} {{ $user->app }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>
+                        <button type="button" class="btn btn-secondary" id="{{ $user->id }}"><i class="fa-solid fa-circle-info"></i></button>
+                        <a href="{{url('users/detalles/'. $user->id_user)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Seguro?')">
                                 @csrf
                                 @method('DELETE')
                                     <button class="btn btn-danger" type="submit" rel="tooltip">
-                                    <i class="material-icons">close</i>
+                                    <i class="fa-solid fa-trash"></i>
                                     </button>
-                                </form>
-                                @endcan
-                              </td>
-                            </tr>
-                          @endforeach
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="card-footer mr-auto">
-                    {{ $users->links() }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                        </form>
+                    </td>
+                </tr>
+                <tr id="{{ $user->id_user }}">
+                    <td colspan="6">
+                        <div id="info{{ $user->id_user }}"></div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
+</div>
+
 @endsection
