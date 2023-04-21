@@ -19,22 +19,36 @@
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                     class="fas fa-user-secret me-2"></i>Detto Uniformes</div>
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
+                <a href="{{ url('inicio') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fa-solid fa-house"></i> Inicio</a>
+                    @can('prenda_index')
                 <a href="{{ url('productos/') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-shirt"></i> Prendas</a>
+                    @endcan
+                    @can('almacen_index')
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-warehouse"></i> Almacén</a>
+                    @endcan
+                    @can('cliente_index')
                 <a href="{{ url('clientes/') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-users"></i> Clientes</a>
-                <a href="{{ url('rutas/') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"> 
-                    <i class="fa-solid fa-route"></i> Rutas</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fa-solid fa-magnifying-glass"></i> Visitas</a>
+                    @endcan
+                    @can('kilometraje_index')
+                <a href="{{ url('kilometrajes/') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"> 
+                    <i class="fa-solid fa-route"></i> Kilometraje</a>
+                    @endcan
+                    @can('viatico_index')
+                <a href="{{ url('viaticos') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fa-solid fa-magnifying-glass"></i> Viaticos</a>
+                    @endcan
+                @can('cotizacion_index')
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-hand-holding-dollar"></i> Cotizaciones</a>
+                @endcan
+                @can('user_index')
                 <a href="{{ url('users') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-user-tie"></i> Empleados</a>
+                @endcan
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     <button class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
                     @csrf
@@ -62,7 +76,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle third-text fw-bold" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-user"></i> Alex Martínez
+                                <i class="fa-solid fa-user"></i>{{ Auth::user()->name }} {{ Auth::user()->app }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>

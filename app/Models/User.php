@@ -61,4 +61,8 @@ class User extends Authenticatable
     {
         $this->attributes['name'] = ucfirst($value);
     }
+
+    public function viatico(){
+        return $this->hasMany(Viatico::class);
+    }
 }

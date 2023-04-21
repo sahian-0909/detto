@@ -15,6 +15,7 @@ class CreateKilometrajesTable extends Migration
     {
         Schema::create('kilometrajes', function (Blueprint $table) {
             $table->id();
+            $table->double('costo');
             $table->timestamps();
         });
     }

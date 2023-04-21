@@ -18,14 +18,17 @@ class RoleHasPermissionSeeder extends Seeder
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
         // Admin
-        $admin_permissions = Permission::all();
-        Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
+        $administrador_permissions = Permission::all();
+        Role::findOrFail(1)->permissions()->sync($administrador_permissions->pluck('id'));
 
         // User
-        $user_permissions = $admin_permissions->filter(function($permission) {
-            return substr($permission->name, 0, 5) != 'role_' &&
+        $vendedor_permissions = $administrador_permissions->filter(function($permission) {
+            return substr($permission->name, 0, 5) != 'user_' &&
+                substr($permission->name, 0, 5) != 'role_' &&
+                substr($permission->name, 0, 12) != 'kilometraje_' &&
+                substr($permission->name, 0, 7) != 'prenda_' &&
                 substr($permission->name, 0, 11) != 'permission_';
         });
-        Role::findOrFail(2)->permissions()->sync($user_permissions);
+        Role::findOrFail(2)->permissions()->sync($vendedor_permissions);
     }
 }

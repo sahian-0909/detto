@@ -15,6 +15,16 @@ class CreateViaticosTable extends Migration
     {
         Schema::create('viaticos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('cliente_id');
+            $table->foreign('cliente_id')->references('id_cliente')->on('clientes')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->decimal('km');
+            $table->dateTime('fecha');
+            $table->decimal('total');
+            $table->string('comentarios');
+            $table->enum('estatus',['PAGADO', 'PENDIENTE'])->default('PENDIENTE');
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }

@@ -4,29 +4,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\KilometrajeController;
+use App\Http\Controllers\ViaticoController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/inicio', [App\Http\Controllers\Controller::class, 'inicio'])->name('inicio');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\Controller::class, 'home'])->name('home');
 
 Route::get('indexAdmi', function () {
     return view('layouts.admin');
 });
+
 
 Route::group(['middleware' => 'auth'], function() {
 
@@ -65,6 +56,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('editar/{id}',[ProductoController::class,'editarProducto']);
         Route::put('actualizarProducto/{id}',[ProductoController::class,'actualizarProducto']);    
     });
+        // KILOMETRAJE
+        Route::get('/kilometrajes', [App\Http\Controllers\KilometrajeController::class, 'index'])->name('kilometrajes.index');
+        Route::get('/kilometrajes/{kilometraje}/edit', [App\Http\Controllers\KilometrajeController::class, 'edit'])->name('kilometrajes.edit');
+        Route::put('/kilometrajes/{kilometraje}', [App\Http\Controllers\KilometrajeController::class, 'update'])->name('kilometrajes.update');
 
         // CATEGORIAS
         Route::name('indexCategoria')->get('indexCategoria/', [CategoriaController::class, 'indexCategoria']);
@@ -75,4 +70,13 @@ Route::group(['middleware' => 'auth'], function() {
         Route::name('editarCategoria')->get('editarCategoria/{id}',[CategoriaController::class,'editarCategoria']);
         Route::name('actualizarCategoria')->put('actualizarCategoria/{id}',[CategoriaController::class,'actualizarCategoria']);
 
+        Route::get('/viaticos/create', [App\Http\Controllers\ViaticoController::class, 'create'])->name('viaticos.create');
+        Route::post('/viaticos', [App\Http\Controllers\ViaticoController::class, 'store'])->name('viaticos.store');
+        Route::get('/viaticos', [App\Http\Controllers\ViaticoController::class, 'index'])->name('viaticos.index');
+        Route::get('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'show'])->name('viaticos.show');
+        Route::get('/viaticos/{viatico}/edit', [App\Http\Controllers\ViaticoController::class, 'edit'])->name('viaticos.edit');
+        Route::put('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'update'])->name('viaticos.update');
+        Route::delete('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'destroy'])->name('viaticos.delete');
+
+        Route::get('change_status/viaticos/{viatico}', [ViaticoController::class, 'change_status'])->name('change.status.viaticos');
 });

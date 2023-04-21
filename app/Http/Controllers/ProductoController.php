@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto as ProductosModel;
 use App\Models\Categoria as CategoriasModel;
+use Illuminate\Support\Facades\Gate;
 
 class ProductoController extends Controller
 {
     public function indexProducto(){
+        abort_if(Gate::denies('prenda_index'), 403);
         $productos = ProductosModel::all();
         return view ('productos/indexproductos')->with(['productos'=>$productos]);
     }

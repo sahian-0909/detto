@@ -27,7 +27,7 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        $user = User::create($request->only('name', 'username', 'app', 'apm', 'email', 'telefono', 'sexo')
+        $user = User::create($request->only('name', 'username', 'app', 'apm', 'email', 'telefono')
             + [
                 'password' => bcrypt($request->input('password')),
             ]);
@@ -57,24 +57,16 @@ class UserController extends Controller
     public function update(UserEditRequest $request, User $user)
     {
         // $user=User::findOrFail($id);
-        $data = $request->only('name', 'username', 'email');
+        $data = $request->only('name', 'username', 'app', 'apm', 'email', 'telefono');
         $password=$request->input('password');
         if($password)
             $data['password'] = bcrypt($password);
-        // if(trim($request->password)=='')
-        // {
-        //     $data=$request->except('password');
-        // }
-        // else{
-        //     $data=$request->all();
-        //     $data['password']=bcrypt($request->password);
-        // }
 
         $user->update($data);
 
         $roles = $request->input('roles', []);
         $user->syncRoles($roles);
-        return redirect()->route('users.show', $user->id)->with('success', 'Usuario actualizado correctamente');
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente');
     }
 
     public function destroy(User $user)

@@ -8,9 +8,6 @@
     <div class="col-2">
       <a href="{{route('users.create')}}" class="btn btn-sm btn-success">Agregar</i></a>
     </div>
-    <!-- <div class="col-1">
-        <a href="{{url('userspdf')}}" class="btn btn-sm btn-danger"><i class="fa-solid fa-download"></i></a>
-    </div> -->
 </div>
 <div class="row my-1">
     <div class="col">
@@ -32,8 +29,8 @@
                     <td>{{ $user->name }} {{ $user->app }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        <button type="button" class="btn btn-secondary" id="{{ $user->id }}"><i class="fa-solid fa-circle-info"></i></button>
-                        <a href="{{url('users/detalles/'. $user->id_user)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                        
+                        <a href="{{route('users.edit', $user)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
                         <form action="{{ route('users.delete', $user->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Seguro?')">
                                 @csrf
                                 @method('DELETE')

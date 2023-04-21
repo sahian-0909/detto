@@ -35,6 +35,41 @@ class PermissionSeeder extends Seeder
             'user_show',
             'user_edit',
             'user_destroy',
+
+            'cotizacion_index',
+            'cotizacion_create',
+            'cotizacion_show',
+            'cotizacion_edit',
+            'cotizacion_destroy',
+
+            'viatico_index',
+            'viatico_create',
+            'viatico_show',
+            'viatico_edit',
+
+            'kilometraje_index',
+            'kilometraje_create',
+            'kilometraje_show',
+            'kilometraje_edit',
+            'kilometraje_destroy',
+
+            'cliente_index',
+            'cliente_create',
+            'cliente_show',
+            'cliente_edit',
+            'cliente_destroy',
+
+            'almacen_index',
+            'almacen_create',
+            'almacen_show',
+            'almacen_edit',
+            'almacen_destroy',
+
+            'prenda_index',
+            'prenda_create',
+            'prenda_show',
+            'prenda_edit',
+            'prenda_destroy',
         ];
 
         foreach ($permissions as $permission) {

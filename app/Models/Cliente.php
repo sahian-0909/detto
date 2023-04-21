@@ -22,4 +22,9 @@ class Cliente extends Model
         'telefono_contacto',
         'domicilio_compania'
     ];
+
+    //Relacion uno a muchos de Usuarios a Ventas
+    public function viatico(){
+        return $this->hasMany(Viatico::class);
+    }
 }

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PDF;
 use App\Models\Cliente;
+use Illuminate\Support\Facades\Gate;
 
 class ClientesController extends Controller
 {
     //Clientes
     public function listClientes() {
+        abort_if(Gate::denies('cliente_index'), 403);
         $clientes = Cliente::all()->where('activo', '=', '1');
         return view('clientes/clientes/listado')->with('clientes', $clientes);
     }

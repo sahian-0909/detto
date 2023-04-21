@@ -26,11 +26,11 @@ class UserCreateRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'app' => 'required|string|max:255',
-            'apm' => 'string|max:255',
-            'sexo' => 'required|string|max:255',
+            'apm' => 'nullable',
             'username' => 'required|unique:users',
             'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'password' => 'required',
+            'roles' => 'required'
         ];
     }
 

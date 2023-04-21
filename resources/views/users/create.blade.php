@@ -13,6 +13,12 @@
             <input type="text" class="form-control" name="name" id="name">
         </div>
     </div>
+    @if ($errors->has('username'))
+        <span class="error text-danger" for="input-username">{{ $errors->first('username') }}</span>
+    @endif
+    @if ($errors->has('name'))
+        <span class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
+    @endif
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <label for="app" class="form-label">Apellido Paterno *</label>
@@ -23,6 +29,12 @@
             <input type="text" class="form-control" name="apm" id="apm">
         </div>
     </div>
+    @if ($errors->has('app'))
+        <span class="error text-danger" for="input-app">{{ $errors->first('app') }}</span>
+    @endif
+    @if ($errors->has('apm'))
+        <span class="error text-danger" for="input-apm">{{ $errors->first('apm') }}</span>
+    @endif
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <label for="email" class="form-label">Correo electrónico*</label>
@@ -33,20 +45,26 @@
             <input type="password" class="form-control" name="password" id="password">
         </div>
     </div>
+    @if ($errors->has('email'))
+        <span class="error text-danger" for="input-email">{{ $errors->first('email') }}</span>
+    @endif
+    @if ($errors->has('password'))
+        <span class="error text-danger" for="input-password">{{ $errors->first('password') }}</span>
+    @endif
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
             <label for="telefono" class="form-label">*Teléfono</label>
             <input type="tel" class="form-control" name="telefono" id="telefono">
         </div>
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-            <label for="sexo" class="form-label">Sexo:</label>
-            <br>
-            <input type="radio" name="sexo" value="FEMENINO" />
-            <label>Femenino</label>
-            <input type="radio" name="sexo" value="MASCULINO" />
-            <label>Masculino</label>
         </div>
     </div>
+    @if ($errors->has('telefono'))
+        <span class="error text-danger" for="input-telefono">{{ $errors->first('telefono') }}</span>
+    @endif
+    @if ($errors->has('sexo'))
+        <span class="error text-danger" for="input-sexo">{{ $errors->first('sexo') }}</span>
+    @endif
     <div class="row">
                 <label for="roles" class="col-sm-2 col-form-label">Roles</label>
                 <div class="col-sm-7">
@@ -81,13 +99,19 @@
                     </div>
                 </div>
             </div>
+            @if ($errors->has('roles'))
+        <span class="error text-danger" for="input-roles">{{ $errors->first('roles') }}</span>
+    @endif
     <hr>
     <div class="row">
-        <div class="col-4">
-            <input type="submit" value="Guardar Datos" class="btn btn-success">
+    <div class="col-2">
+            
+            </div>
+        <div class="col-8">
+            <input type="submit" value="Guardar Datos" class="btn btn-success col-8">
         </div>
-        <div class="col-4">
-            <input type="reset" value="Cancelar Registro" class="btn btn-danger">
+        <div class="col-2">
+            
         </div>
     </div>
 </form>
