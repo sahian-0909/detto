@@ -24,7 +24,6 @@ class CreateViaticosTable extends Migration
             $table->decimal('total');
             $table->string('comentarios');
             $table->enum('estatus',['PAGADO', 'PENDIENTE'])->default('PENDIENTE');
-            $table->string('img')->nullable();
             $table->timestamps();
         });
     }

@@ -28,6 +28,7 @@
                                     <th>Empleado</th>
                                     <th>Total</th>
                                     <th>Estatus</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             @foreach($viaticos as $viatico)
@@ -43,17 +44,22 @@
                                     <td>$ {{$viatico->total}}</td>
                                     @if ($viatico->estatus == 'PAGADO')
                                     <td>
-                                        <a disabled class="jsgrid-button btn btn-success" href="{{route('change.status.viaticos', $viatico)}}" title="Editar">
+                                        <a class="jsgrid-button btn btn-success" href="{{route('change.status.viaticos', $viatico)}}">
                                             Pagado <i class="fas fa-check"></i>
                                         </a>
                                     </td>
                                     @else
                                     <td>
-                                        <a class="jsgrid-button btn btn-danger" href="{{route('change.status.viaticos', $viatico)}}" title="Editar">
+                                        <a class="jsgrid-button btn btn-danger" href="{{route('change.status.viaticos', $viatico)}}">
                                             Pendiente <i class="fas fa-times"></i>
                                         </a>
                                     </td>
                                     @endif
+                                    <td>
+                                        <a class="jsgrid-button btn btn-info" href="{{route('viaticos.show', $viatico)}}">
+                                        <i class="fas fa-clock"></i>
+                                        </a>
+                                    </td>
                             </tbody>
                             @endforeach
                         </table>

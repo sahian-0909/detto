@@ -18,7 +18,6 @@ class Viatico extends Model
         'total',
         'comentarios',
         'estatus',
-        'img',
     ];
 
     //Relacion uno a muchos inversa de Ventas a Usuarios

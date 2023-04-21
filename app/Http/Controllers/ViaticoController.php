@@ -41,9 +41,8 @@ class ViaticoController extends Controller
             'fecha' => 'date',
             'total' => 'numeric',
             'comentarios' => 'required|string',
-            'img' => 'required',
         ]);
-        $compra = Viatico::create($request->all()+[
+        $viatico = Viatico::create($request->all()+[
             'total' => (($request->km)*($precio)),
             'user_id'=>Auth::user()->id,
             'fecha' => Carbon::now('America/Mexico_City'),
@@ -55,7 +54,9 @@ class ViaticoController extends Controller
 
     public function show(Viatico $viatico)
     {
-       
+        $clientes = Cliente::get();
+        $kilometrajes = Kilometraje::get();
+        return view('viaticos.show', compact('clientes', 'kilometrajes', 'viatico'));
     }
 
     public function edit(Viatico $viatico)
