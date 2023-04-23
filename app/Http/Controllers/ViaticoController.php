@@ -8,6 +8,7 @@ use App\Models\Viatico;
 use App\Models\Cliente;
 use App\Models\Kilometraje;
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,9 +18,11 @@ class ViaticoController extends Controller
     public function index()
     {
         abort_if(Gate::denies('viatico_index'), 403);
-        $viaticos = Viatico::get();
+        $viaticos = Viatico::paginate(5);
         $clientes = Cliente::get();
-        return view('viaticos.index', compact('viaticos', 'clientes'));
+        $user = Auth::user()->roles;
+        $id_user = Auth::user()->id;
+        return view('viaticos.index', compact('viaticos', 'clientes', 'user', 'id_user'));
     }
 
     public function create()

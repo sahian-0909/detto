@@ -28,8 +28,21 @@
     </div>
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-            <label for="km" class="form-label">Kilometros a recorrer</label>
-            <input value="{{ old('km', $viatico->km) }}" type="text" class="form-control" name="km" id="km">
+            <label for="km" class="form-label">Kilometros que recorrio</label>
+            <input value="{{ old('km', $viatico->km) }}" type="text" class="form-control" name="km" id="km" disabled>
+            @if ($errors->has('km'))
+                <span class="error text-danger" for="input-km">{{ $errors->first('km') }}</span>
+            @endif
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="costo" class="form-label">Total</label>
+            <input type="text" value="$ {{$viatico->total}}" class="form-control" name="costo" id="costo" disabled>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <label for="km" class="form-label">Fecha</label>
+            <input value="{{\Carbon\Carbon::parse($viatico->fecha)->format('d M y')}}" type="text" class="form-control" name="km" id="km"disabled>
             @if ($errors->has('km'))
                 <span class="error text-danger" for="input-km">{{ $errors->first('km') }}</span>
             @endif
@@ -45,7 +58,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <label for="comentarios" class="form-label">Comentarios </label>
-            <input value="{{ old('comentarios', $viatico->comentarios) }}" class="form-control" name="comentarios"></input>
+            <input value="{{ old('comentarios', $viatico->comentarios) }}" class="form-control" name="comentarios" disabled></input>
         </div>
         @if ($errors->has('comentarios'))
                 <span class="error text-danger" for="input-comentarios">{{ $errors->first('comentarios') }}</span>
