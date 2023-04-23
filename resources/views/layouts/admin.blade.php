@@ -26,7 +26,7 @@
                     <i class="fa-solid fa-shirt"></i> Prendas</a>
                     @endcan
                     @can('almacen_index')
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ url('almacen') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-warehouse"></i> Almacén</a>
                     @endcan
                     @can('cliente_index')
@@ -42,12 +42,16 @@
                     <i class="fa-solid fa-magnifying-glass"></i> Viaticos</a>
                     @endcan
                 @can('cotizacion_index')
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                <a href="{{ url('cotizaciones/') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-hand-holding-dollar"></i> Cotizaciones</a>
                 @endcan
                 @can('user_index')
                 <a href="{{ url('users') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fa-solid fa-user-tie"></i> Empleados</a>
+                @endcan
+                @can('user_index')
+                <a href="{{ url('permissions') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fa-solid fa-user-tie"></i> Gestión</a>
                 @endcan
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     <button class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>

@@ -79,4 +79,34 @@ Route::group(['middleware' => 'auth'], function() {
         Route::delete('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'destroy'])->name('viaticos.delete');
 
         Route::get('change_status/viaticos/{viatico}', [ViaticoController::class, 'change_status'])->name('change.status.viaticos');
+
+        Route::prefix('cotizaciones')->group(function () {
+            Route::get('/', [App\Http\Controllers\CotizacionesController::class, 'listCotizacion']);
+            Route::get('detalles/{id}', [App\Http\Controllers\CotizacionesController::class, 'showCotizacion'])->name('detalleCotizacion');
+            Route::get('cotizar', [App\Http\Controllers\CotizacionesController::class, 'formCotizacion']);
+            Route::get('info_cliente', [App\Http\Controllers\CotizacionesController::class, 'infoCliente'])->name('info_cliente');
+            Route::get('select_prendas', [App\Http\Controllers\CotizacionesController::class, 'select_Prendas'])->name('select_prendas');
+            Route::get('info_prenda', [App\Http\Controllers\CotizacionesController::class, 'infoPrenda'])->name('info_prenda');    
+            Route::post('registrar', [App\Http\Controllers\CotizacionesController::class, 'registrarCotizacion']);
+            Route::get('comprobante/{id}', [App\Http\Controllers\CotizacionesController::class, 'comprobanteCotizacion']);
+        });
+
+        Route::prefix('almacen')->group(function () {
+            Route::get('/', [App\Http\Controllers\AlmacenController::class, 'listAlmacen']);
+            Route::get('nuevo/', [App\Http\Controllers\AlmacenController::class, 'createAlmacen']);
+            Route::post('registrar', [App\Http\Controllers\AlmacenController::class, 'storeAlmacen']);
+            Route::get('detalles/{id}', [App\Http\Controllers\AlmacenController::class, 'showAlmacen']);
+            Route::put('actualizar/{id}', [App\Http\Controllers\AlmacenController::class, 'updateAlmacen']);
+            Route::get('editar/{id}', [App\Http\Controllers\AlmacenController::class, 'editarAlmacen']);
+            Route::get('entrega/{id}', [App\Http\Controllers\AlmacenController::class, 'entregaAlmacen']);
+            Route::get('eliminar/{id}', [App\Http\Controllers\AlmacenController::class, 'deleteAlmacen']);
+            Route::get('entrega/{id}', [App\Http\Controllers\AlmacenController::class, 'entregaAlmacen']);
+            Route::put('entregar/{id}', [App\Http\Controllers\AlmacenController::class, 'entregarAlmacen']);
+            Route::get('infoprenda', [App\Http\Controllers\AlmacenController::class, 'infoPrenda'])->name('infoprenda');
+            Route::get('info_categoria', [App\Http\Controllers\AlmacenController::class, 'infoCategoria'])->name('info_categoria');
+            Route::get('info_producto', [App\Http\Controllers\AlmacenController::class, 'infoProducto'])->name('info_producto');
+            Route::get('info_diseno', [App\Http\Controllers\AlmacenController::class, 'infoDiseno'])->name('info_diseno');
+            Route::get('info_entrega', [App\Http\Controllers\AlmacenController::class, 'infoEntrega'])->name('info_entrega');
+            Route::get('info_entrega2', [App\Http\Controllers\AlmacenController::class, 'infoEntrega2'])->name('info_entrega2');
+        });
 });
