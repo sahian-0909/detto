@@ -1,7 +1,7 @@
 <select name="" id="PidPrenda" class="form-select">
     <option value="">Selecciona una prenda</option>
     @foreach ($prendas as $prendas)
-    <option value="{{$prendas->id}}"> {{$prendas->producto}}</option>
+    <option value="{{$prendas->id}}"> {{$prendas->producto}}, T: {{ $prendas->talla }}, C: {{ $prendas->color }}, {{ $prendas->sexo }}</option>
     @endforeach
 </select>
 <script type="text/javascript">

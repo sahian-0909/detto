@@ -18,7 +18,7 @@ class CreateCotizacionsTable extends Migration
             $table->integer('id_empleado');
             $table->integer('id_cliente');
             $table->integer('id_autorizacion')->nullable()->default(0);
-            $table->boolean('autizado')->nullable()->default(0);
+            $table->boolean('autorizado')->nullable()->default(False);
             $table->String('tipo');
             $table->Float('subtotal');            
             $table->Float('descuento')->nullable()->default(0);

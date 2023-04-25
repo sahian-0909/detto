@@ -8,12 +8,6 @@
     <div class="col-1">
         <a href="{{url('cotizaciones/cotizar')}}" class="btn btn-sm btn-success">Cotizar</a>
     </div>
-   {{--  <div class="col-1">
-        <a href="{{url('clientes/pdf')}}" class="btn btn-sm btn-danger"><i class="fa-solid fa-download"></i></a>
-    </div>
-    <div class="col-1">
-        <a href="{{url('clientes/archivados')}}" class="btn btn-sm btn-primary"><i class="fa-solid fa-clock"></i></a>
-    </div> --}}
 </div>
 <div class="row my-1">
     <div class="col">
@@ -40,14 +34,26 @@
                         <td>{{ $cotizacion->tipo}}</td>
                         <td>{{ $cotizacion->created_at}}</td>
                         <td>
-                            <a href="{{ url('cotizaciones/detalles/'. $cotizacion->folio) }}" class="btn btn-sm btn-secondary">Detalles</a>
-                            {{-- <a href="" class="btn btn-sm btn-success">Autorizar</a> --}}
+                            @if($cotizacion->autizado == 0 )
+                                <form action="{{ url('cotizaciones/autorizar/'.$cotizacion->folio) }}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <a href="{{ url('cotizaciones/detalles/'. $cotizacion->folio) }}" class="btn btn-sm btn-secondary">Detalles</a>
+                                    <input type="hidden" name="autorizar" value="{{ Auth::user()->id }}">
+                                    <input type="submit" value="Autorizar" class="btn btn-sm btn-success">
+                                </form>
+                            @else
+                                <a href="{{ url('cotizaciones/detalles/'. $cotizacion->folio) }}" class="btn btn-sm btn-secondary">Detalles</a>
+                            @endif
                         </td>
                     </tr>                    
                     @endforeach
                 </tbody>
             </table>
-        </div>        
+        </div>
+        <div class="card-body">
+            {{ $cotizaciones->links() }}
+        </div>
     </div>
 </div>
 

@@ -17,7 +17,7 @@ class CreateDetallesTable extends Migration
             $table->id();
             $table->string('folio');
             $table->integer('id_prenda');
-            $table->text('comentariosPrenda');
+            $table->text('comentariosPrenda')->default('');
             $table->float('cantidad');
             $table->float('costo_unitario')->default('00.00');
             $table->float('importe')->default('00.00');

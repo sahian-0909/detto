@@ -16,8 +16,8 @@ class CotizacionesController extends Controller {
     public function listCotizacion() {
         $cotizaciones = Cotizacion::join('users', 'cotizacions.id_empleado', '=', 'users.id')
                     ->join('clientes', 'cotizacions.id_cliente', '=', 'clientes.id_cliente')
-                    ->select('cotizacions.folio', 'users.name', 'cotizacions.total', 'cotizacions.tipo', 'clientes.nombre_compania', 'cotizacions.created_at')
-                    ->get();
+                    ->select('cotizacions.folio', 'cotizacions.autizado', 'users.name', 'cotizacions.total', 'cotizacions.tipo', 'clientes.nombre_compania', 'cotizacions.created_at')
+                    ->paginate(15);
         //return response()->json(['cotizaciones' => $cotizaciones]);
         return view('cotizaciones/listado')->with(['cotizaciones' => $cotizaciones]);
     }
@@ -25,7 +25,7 @@ class CotizacionesController extends Controller {
     public function showCotizacion($id) {
         $cotizacion = Cotizacion::join('users', 'cotizacions.id_empleado', '=', 'users.id')
                     ->join('clientes', 'cotizacions.id_cliente', '=', 'clientes.id_cliente')
-                    ->select('clientes.*', 'cotizacions.folio', 'cotizacions.tipo', 'cotizacions.subtotal', 'cotizacions.descuento', 'cotizacions.impuestos', 'cotizacions.total', 'cotizacions.created_at AS fecha_creacion', 'users.name')
+                    ->select('clientes.*', 'cotizacions.folio', 'cotizacions.tipo', 'cotizacions.subtotal', 'cotizacions.ganancias', 'cotizacions.descuento', 'cotizacions.impuestos', 'cotizacions.total', 'cotizacions.created_at AS fecha_creacion', 'users.name')
                     ->where('cotizacions.folio', '=', $id)
                     ->get();
         $detalles = Cotizacion::join('detalles', 'cotizacions.folio', '=', 'detalles.folio')
@@ -106,7 +106,11 @@ class CotizacionesController extends Controller {
             $detalles->folio = $request->get('folioCot');
             $detalles->id_prenda = $id_prenda[$cont];
             $detalles->costo_unitario = 200;
-            $detalles->comentariosPrenda = $comentariosPrenda[$cont];
+            if(isset($comentariosPrenda[$cont])) {
+                $detalles->comentariosPrenda = $comentariosPrenda[$cont];
+            } else {
+                $detalles->comentariosPrenda = '';
+            }
             $detalles->cantidad = $cantidad[$cont];
             $detalles->descuento = $descuento[$cont];
             $detalles->importe = $importe[$cont];
@@ -117,6 +121,15 @@ class CotizacionesController extends Controller {
         }
 
         return redirect()->route('detalleCotizacion',['id'=>$folio]);
+    }
+
+    public function autorizar(Request $request, $id){
+        $autorizacion = Cotizacion::find($id);
+        $autorizacion->autizado = true;
+        $autorizacion->id_autorizacion = $request->get('id_autorizacion');
+        $autorizacion->tipo = 'Cotización';
+        $autorizacion->update();
+        return redirect()->route('detalleCotizacion',['id'=>$id]);
     }
 
     public function comprobanteCotizacion($id){

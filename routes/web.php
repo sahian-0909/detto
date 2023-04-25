@@ -89,6 +89,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('info_prenda', [App\Http\Controllers\CotizacionesController::class, 'infoPrenda'])->name('info_prenda');    
             Route::post('registrar', [App\Http\Controllers\CotizacionesController::class, 'registrarCotizacion']);
             Route::get('comprobante/{id}', [App\Http\Controllers\CotizacionesController::class, 'comprobanteCotizacion']);
+            Route::put('autorizar/{id}', [App\Http\Controllers\CotizacionesController::class, 'autorizar']);
         });
 
         Route::prefix('almacen')->group(function () {

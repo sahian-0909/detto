@@ -20,7 +20,7 @@
         </div>
         <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
             <label for="ganancias" class="form-label">Margen de Ganancias</label>
-            <select name="ganancias" id="mganancias" class="form-select">
+            <select name="Pganancias" id="mganancias" class="form-select">
                 <option value="0">Margen 0%</option>
                 <option value="25">Margen 25%</option>
                 <option value="30">Margen 30%</option>
@@ -28,6 +28,8 @@
                 <option value="40">Margen 40%</option>
                 <option value="45">Margen 45%</option>
                 <option value="50">Margen 50%</option>
+                <option value="55">Margen 55%</option>
+                <option value="60">Margen 60%</option>
             </select>
         </div>        
         <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
@@ -109,7 +111,7 @@
                         <th>Ganancias</th>
                         <th>
                             <div class="input-group">
-                                <input type="hidden" class="form-control-sm" placeholder="00.00" name="resto" id="ganancias" readonly>
+                                <input type="hidden" class="form-control-sm" placeholder="00.00" name="ganancias" id="ganancias" readonly>
                                 <span id="sganancias"></span>
                             </div>
                         </th>

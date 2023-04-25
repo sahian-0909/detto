@@ -22,7 +22,7 @@
         }
 
         table {
-            font-family:Arial, Helvetica, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 12px;
         }
 
@@ -30,16 +30,19 @@
             background-color: #0479E0;
             color: #FFFFFF;
         }
+
     </style>
 </head>
 
-<body>    
+<body>
     @foreach ($cotizacion as $cotizacion)
     <table>
         <tr align="right">
             <td></td>
             <td bgcolor="#0479E0">
-                <strong> <h3>Cotización  {{$cotizacion->folio}}</h3></strong>
+                <strong>
+                    <h3>Cotización {{$cotizacion->folio}}</h3>
+                </strong>
             </td>
         </tr>
         <tr align="right">
@@ -80,7 +83,7 @@
                 <th scope="col">Descripción</th>
                 <th scope="col">Precio Unitario</th>
                 <th scope="col">Descuento</th>
-                <th scope="col">Importe</th>                        
+                <th scope="col">Importe</th>
             </tr>
         </thead>
         <tbody>
@@ -89,44 +92,53 @@
                 <td>{{ $detalle->codigo }}</td>
                 <td>{{ $detalle->cantidad }}</td>
                 <td>{{ $detalle->unidad }}</td>
-                <td>{{ $detalle->descripcion }}, {{ $detalle->materiales }}, {{ $detalle->bordados }} Bordados, {{ $detalle->bolsas }} Bolsas, {{ $detalle->cintas }} Cintas Reflejantes</td>
+                <td>{{ $detalle->descripcion }}, {{ $detalle->materiales }}, {{ $detalle->bordados }} Bordados,
+                    {{ $detalle->bolsas }} Bolsas, {{ $detalle->cintas }} Cintas Reflejantes</td>
                 <td>$ {{ $detalle->costo_unitario}}</td>
                 <td>% {{ $detalle->descuento }}</td>
                 <td>$ {{ $detalle->importe}}</td>
             </tr>
             <tr>
-                <td colspan="7"><hr></td>
+                <td colspan="7">
+                    <hr>
+                </td>
             </tr>
             @endforeach
             <tr>
                 <th colspan="4"></th>
-                <th colspan="3">
-                    <div class="alert">
-                        <b>Subtotal: . . </b>$ {{$cotizacion->subtotal}} <br>
-                        <b>Descuento: . . </b>$ {{$cotizacion->descuento}} <br>
-                        <b>I.V.A 16%: . . </b>$ {{$cotizacion->impuestos}} <br>
-                        <b>Total . . </b>$ {{$cotizacion->total}} <br>
-                    </div>
-                </th>
+                <th colspan="2">Subtotal:</th>
+                <th align="right">${{ $cotizacion->subtotal }}</th>
+            </tr>
+            <tr>
+                <th colspan="4"></th>
+                <th colspan="2">I.V.A 16%:</th>
+                <th align="right">${{ $cotizacion->impuestos }}</th>
+            </tr>
+            <tr>
+                <th colspan="4"></th>
+                <th colspan="2">Total:</th>
+                <th align="right">${{ $cotizacion->total }}</th>
             </tr>
         </tbody>
-        <tfoot  align="left">
+        <tfoot align="left">
             <tr>
                 <th colspan="7">CONDICIONES COMERCIALES</th>
             </tr>
             <tr>
                 <td colspan="7">
                     <ol>
-                        <li>Tiempo de entrega: 4 a 5 semanas, despues de recibir anticipo, tallas completas y autorización de muestras</li>
+                        <li>Tiempo de entrega: 4 a 5 semanas, despues de recibir anticipo, tallas completas y
+                            autorización de muestras</li>
                         <li>Forma de pago: 60% anticipo, 40% contra entrega</li>
                         <li>Todos nuestros productos generar el 16% del I.V.A</li>
                         <li>Incluye servicio adicional de toma de tallas y entrega personalizada</li>
                         <li>Es posible que exista diferencia de tonos entre lotes que no podamos controlar</li>
                         <li>No hay cambios ni devoluciones, si no se realizo la toma de tallas</li>
                         <li>Estos precios estan sujetos a cambio antes de la confirmación por escrito del pedido</li>
-                        <li>Estos precios son hasta la talla WL 42 (Playeras, Batas, Sudaderas, Camisas) y talla 36 en pantaloes, en tallas superiores incrementa el precio</li>
+                        <li>Estos precios son hasta la talla WL 42 (Playeras, Batas, Sudaderas, Camisas) y talla 36 en
+                            pantaloes, en tallas superiores incrementa el precio</li>
                         <li>El flete no esta incluido</li>
-                      </ol>
+                    </ol>
                 </td>
             </tr>
         </tfoot>
