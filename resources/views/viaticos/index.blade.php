@@ -13,6 +13,9 @@
                                     <option value="{{$empleado->id}}">{{$empleado->name}} {{$empleado->app}}</option>
                                     @endforeach
                                 </select>
+                                @if ($errors->has('user_id'))
+                                    <span class="error text-danger" for="input-user_id">{{ $errors->first('user_id') }}</span>
+                                @endif
                             </div>
                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                                 <label for="estatus" class="form-label">Búsqueda por estatus de pago:</label>
@@ -21,10 +24,33 @@
                                     <option value="PAGADO">PAGADO</option>
                                     <option value="PENDIENTE">PENDIENTE</option>
                                 </select>
+                                @if ($errors->has('estatus'))
+                                    <span class="error text-danger" for="input-estatus">{{ $errors->first('estatus') }}</span>
+                                @endif
                             </div>
                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                                 <br>
-                                <input type="submit" value="Buscar" class="btn btn-sm btn-info col-4">
+                                <input type="submit" value="Buscar" class="btn btn-info col-lg-4">
+                            </div>
+                        </div>
+                    </form>
+                    <form action="{{ route('viaticos.buscarfecha')}}" method="GET" name="buscar">
+                        <div class="row my-1">
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                Fecha inicial<input type="date" name="fi" class="form-control">
+                                @if ($errors->has('fi'))
+                                    <span class="error text-danger" for="input-fi">{{ $errors->first('fi') }}</span>
+                                @endif
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                Fecha final<input type="date" name="ff" class="form-control">
+                                @if ($errors->has('ff'))
+                                    <span class="error text-danger" for="input-ff">{{ $errors->first('ff') }}</span>
+                                @endif
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                <br>
+                                <input type="submit" value="Buscar" class="btn btn-info col-lg-4">
                             </div>
                         </div>
                     </form>
@@ -67,7 +93,7 @@
                                                 </thead>
                                                 @foreach($viaticos_admin as $viatico)
                                                 <tbody>
-                                                        
+                                                        <tr>
                                                         <td>{{$viatico->id}}</td>
                                                         <td>
                                                             {{\Carbon\Carbon::parse($viatico->fecha)->format('d M y h:i a')}}
@@ -95,6 +121,7 @@
                                                             <i class="fas fa-clock"></i>
                                                             </a>
                                                         </td>
+                                                        </tr>
                                                 </tbody>
                                                 @endforeach
                                             </table>
