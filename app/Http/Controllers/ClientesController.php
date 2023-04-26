@@ -96,6 +96,7 @@ class ClientesController extends Controller
     }
 
     public function deleteFCliente($id) {
+        abort_if(Gate::denies('cliente_destoy'), 403);
         Cliente::destroy($id);
         return redirect()->to('clientes');
     }

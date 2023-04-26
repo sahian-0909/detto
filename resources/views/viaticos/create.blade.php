@@ -33,7 +33,7 @@
         </div>
     </div>
     
-    <div class="row">
+    <div class="row mb-4">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
             <label for="comentarios" class="form-label">Comentarios </label>
             <textarea id="my-domComp" class="form-control" name="comentarios" rows="2"></textarea>

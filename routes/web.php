@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/viaticos/{viatico}/edit', [App\Http\Controllers\ViaticoController::class, 'edit'])->name('viaticos.edit');
         Route::put('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'update'])->name('viaticos.update');
         Route::delete('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'destroy'])->name('viaticos.delete');
+        Route::get('/buscar', [App\Http\Controllers\ViaticoController::class, 'buscar'])->name('viaticos.buscar');
 
         Route::get('change_status/viaticos/{viatico}', [ViaticoController::class, 'change_status'])->name('change.status.viaticos');
 

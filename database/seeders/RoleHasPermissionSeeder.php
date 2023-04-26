@@ -21,10 +21,14 @@ class RoleHasPermissionSeeder extends Seeder
         $administrador_permissions = Permission::all();
         Role::findOrFail(1)->permissions()->sync($administrador_permissions->pluck('id'));
 
-        // User
+        // Vendedor
         $vendedor_permissions = $administrador_permissions->filter(function($permission) {
             return substr($permission->name, 0, 5) != 'user_' &&
                 substr($permission->name, 0, 5) != 'role_' &&
+                substr($permission->name, 0, 15) != 'cliente_destroy' &&
+                substr($permission->name, 0, 16) != 'cliente_archivar' &&
+                substr($permission->name, 0, 15) != 'almacen_destroy' &&
+                substr($permission->name, 0, 18) != 'cotizacion_destroy' &&
                 substr($permission->name, 0, 12) != 'kilometraje_' &&
                 substr($permission->name, 0, 7) != 'prenda_' &&
                 substr($permission->name, 0, 11) != 'permission_';

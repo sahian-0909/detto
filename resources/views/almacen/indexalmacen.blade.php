@@ -39,10 +39,14 @@
                         <td class="table-primary">{{ $almacen->dia_salida }}</td>
                         <td class="table-primary">{{ $almacen->comentarios }}</td>
                         <td class="table-primary">
+                            @can('almacen_show')
                             <a button type="button" class="btn btn-info btn-sm"
                                 href="{{url('almacen/detalles/'. $almacen->id)}}">Detalle</button></a>
+                                @endcan
+                                @can('almacen_destroy')
                             <a button type="button" class="btn btn-danger btn-sm"
                                 href="{{url('almacen/eliminar/'. $almacen->id)}}">Borrar</button></a>
+                                @endcan
                             <a button type="button" class="btn btn-success btn-sm" href="{{url('almacen/entrega/'. $almacen->id)}}">Entregar</button></a>
                         </td>
                         @endforeach

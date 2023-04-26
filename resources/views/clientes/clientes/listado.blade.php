@@ -63,8 +63,13 @@
                     <td>
                         <button type="button" class="btn btn-secondary" id="{{ $cliente->id_cliente }}"><i class="fa-solid fa-circle-info"></i></button>
                         {{-- <a href="{{url('clientes/detalles/'. $cliente->id_cliente)}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                        @can('cliente_destroy')
                         <a href="{{url('clientes/eliminar/'. $cliente->id_cliente)}}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                        <a href="{{url('clientes/desactivar/'. $cliente->id_cliente)}}" class="btn btn-secondary"><i class="fa-solid fa-clock"></i></a> --}}
+                        @endcan
+                        @can('cliente_archivar')
+                        <a href="{{url('clientes/desactivar/'. $cliente->id_cliente)}}" class="btn btn-secondary"><i class="fa-solid fa-clock"></i></a> 
+                        @endcan --}}
+                        
                     </td>
                 </tr>
                 <tr id="{{ $cliente->id_cliente }}">

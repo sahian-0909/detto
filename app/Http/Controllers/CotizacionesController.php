@@ -10,10 +10,12 @@ use App\Models\Categoria as Categorias;
 use App\Models\Detalles;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class CotizacionesController extends Controller {
 
     public function listCotizacion() {
+        abort_if(Gate::denies('cotizacion_index'), 403);
         $cotizaciones = Cotizacion::join('users', 'cotizacions.id_empleado', '=', 'users.id')
                     ->join('clientes', 'cotizacions.id_cliente', '=', 'clientes.id_cliente')
                     ->select('cotizacions.folio', 'cotizacions.autizado', 'users.name', 'cotizacions.total', 'cotizacions.tipo', 'clientes.nombre_compania', 'cotizacions.created_at')

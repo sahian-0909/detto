@@ -18,11 +18,15 @@ class ViaticoController extends Controller
     public function index()
     {
         abort_if(Gate::denies('viatico_index'), 403);
-        $viaticos = Viatico::paginate(5);
         $clientes = Cliente::get();
+        $empleados = User::get();
         $user = Auth::user()->roles;
+        $viaticos_admin = Viatico::paginate(15);
+        $viaticos = Viatico::get();
+        $empleados = User::get();
         $id_user = Auth::user()->id;
-        return view('viaticos.index', compact('viaticos', 'clientes', 'user', 'id_user'));
+        $pendientes = Viatico::where('estatus', 'PENDIENTE')->count();
+        return view('viaticos.index', compact('viaticos_admin', 'pendientes', 'empleados', 'user', 'viaticos', 'id_user', 'clientes'));
     }
 
     public function create()
@@ -88,6 +92,20 @@ class ViaticoController extends Controller
             $viatico->update(['estatus'=>'PENDIENTE']);
             return redirect()->back();
         } 
+    }
+
+    public function buscar(Request $request)
+    {
+        $user = Auth::user()->roles;
+        $user_id = $request->get('user_id');
+        $estatus = $request->get('estatus');
+        $viaticos_admin = Viatico::where('user_id', $user_id)
+            ->orwhere('estatus', $estatus)
+            ->paginate(10);
+        $empleados = User::get();
+        $pendientes = Viatico::where('estatus', 'PENDIENTE')->count();
+        return view('viaticos.index', compact('viaticos_admin', 'pendientes', 'empleados', 'user'));
+
     }
 }
 

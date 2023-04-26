@@ -58,6 +58,7 @@ class PermissionSeeder extends Seeder
             'cliente_show',
             'cliente_edit',
             'cliente_destroy',
+            'cliente_archivar',
 
             'almacen_index',
             'almacen_create',

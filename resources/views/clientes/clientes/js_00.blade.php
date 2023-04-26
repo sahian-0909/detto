@@ -18,12 +18,18 @@
                     <hr>
                 </p>
                 <p class="card-text">
+                    @can('cliente_show')
                     <a href="{{url('clientes/detalles/'. $cliente->id_cliente)}}" class="btn btn-warning"><i
                             class="fa-solid fa-pen-to-square"></i></a>
+                            @endcan
+                            @can('cliente_destroy')
                     <a href="{{url('clientes/eliminar/'. $cliente->id_cliente)}}" class="btn btn-danger"><i
                             class="fa-solid fa-trash"></i></a>
+                            @endcan
+                            @can('cliente_archivar')
                     <a href="{{url('clientes/desactivar/'. $cliente->id_cliente)}}" class="btn btn-secondary"><i
                             class="fa-solid fa-clock"></i></a>
+                            @endcan
                 </p>
             </div>
         </div>

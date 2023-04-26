@@ -10,10 +10,12 @@ use App\Models\Producto as Prendas;
 use App\Models\detalleal as Detalle;
 use App\Models\Categoria as Categorias;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class AlmacenController extends Controller {
     
     public function listAlmacen(){
+        abort_if(Gate::denies('almacen_index'), 403);
         $almacenes = AlmacenModel::all();
         $clientes = ClientesModel::all();
         $empleados = EmpleadosModel::all(); 
@@ -93,6 +95,7 @@ class AlmacenController extends Controller {
     }
 
     public function deleteAlmacen(AlmacenModel $id){
+        abort_if(Gate::denies('almacen_destroy'), 403);
         $id->delete();
         return redirect()->to('almacen/');
     }

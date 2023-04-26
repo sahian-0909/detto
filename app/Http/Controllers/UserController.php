@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         abort_if(Gate::denies('user_index'), 403);
-        $users = User::paginate(5);
+        $users = User::paginate(15);
         return view('users.index', compact('users'));
     }
 
