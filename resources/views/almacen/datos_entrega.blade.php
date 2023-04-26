@@ -13,7 +13,7 @@
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label>Imagen: </label>
-        <input type="file" class="form-control" id="imagen_prenda" >
+        <input type="file" class="form-control" id="imagen_prenda" accept="image/*" >
     </div>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <label>Descripcion: </label>

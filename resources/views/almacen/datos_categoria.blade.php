@@ -1,5 +1,6 @@
 <br>
 <div class="row">
+    <br>
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
         <select class="form-select mb-3" aria-label="id_categoria" name="id_categoria" id="id_categoria">
             <option value="0">Selecciona una categoria:</option>

@@ -19,8 +19,9 @@
                         <th scope="col">Cliente</th>
                         <th scope="col">Vendedor</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Fecha y Hora</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Estatus</th>
+                        <th scope="col">Fecha de realizacion</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
@@ -29,18 +30,24 @@
                     <tr class="text-center">
                         <th scope="row">{{ $cotizacion->folio }}</th>
                         <td>{{ $cotizacion->nombre_compania }}</td>
-                        <td>{{ $cotizacion->nombres }}</td>
+                        <td>{{ $cotizacion->name }}</td>
                         <td>$ {{ $cotizacion->total }} MXN</td>
                         <td>{{ $cotizacion->tipo}}</td>
+                        <td>
+                            @if($cotizacion->autorizado == 0) Sin Autorización
+                            @else Autorizado @endif
+                        </td>
                         <td>{{ $cotizacion->created_at}}</td>
                         <td>
-                            @if($cotizacion->autizado == 0 )
+                            @if($cotizacion->autorizado == 0 )
                                 <form action="{{ url('cotizaciones/autorizar/'.$cotizacion->folio) }}" method="post">
                                     @csrf
                                     @method('put')
                                     <a href="{{ url('cotizaciones/detalles/'. $cotizacion->folio) }}" class="btn btn-sm btn-secondary">Detalles</a>
                                     <input type="hidden" name="autorizar" value="{{ Auth::user()->id }}">
-                                    <input type="submit" value="Autorizar" class="btn btn-sm btn-success">
+                                    @can('autorizar')
+                                        <input type="submit" value="Autorizar" class="btn btn-sm btn-success">
+                                    @endcan
                                 </form>
                             @else
                                 <a href="{{ url('cotizaciones/detalles/'. $cotizacion->folio) }}" class="btn btn-sm btn-secondary">Detalles</a>

@@ -47,15 +47,18 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
         // PRODUCTOS
-    Route::prefix('productos')->group(function () {
-        Route::name('/')->get('/', [ProductoController::class, 'indexProducto']);
-        Route::get('agregar/', [ProductoController::class, 'agregarProducto']);
-        Route::post('salvarProducto/', [ProductoController::class, 'salvarProducto']);
-        Route::name('detalleProducto')->get('detalles/{id}', [ProductoController::class, 'detalleProducto']);
-        Route::get('eliminar/{id}', [ProductoController::class, 'borrarProducto']);
-        Route::get('editar/{id}',[ProductoController::class,'editarProducto']);
-        Route::put('actualizarProducto/{id}',[ProductoController::class,'actualizarProducto']);    
-    });
+        Route::prefix('productos')->group(function () {
+            Route::name('/')->get('/', [App\Http\Controllers\ProductoController::class, 'indexProducto']);
+            Route::get('agregar/', [App\Http\Controllers\ProductoController::class, 'agregarProducto']);
+            Route::post('salvarProducto/', [App\Http\Controllers\ProductoController::class, 'salvarProducto']);
+            Route::name('detalleProducto')->get('detalles/{id}', [App\Http\Controllers\ProductoController::class, 'detalleProducto']);
+            Route::get('eliminar/{id}', [App\Http\Controllers\ProductoController::class, 'borrarProducto']);
+            Route::get('editar/{id}',[App\Http\Controllers\ProductoController::class,'editarProducto']);
+            Route::put('actualizarProducto/{id}',[App\Http\Controllers\ProductoController::class,'actualizarProducto']);    
+            Route::get('tallas/{id}',[App\Http\Controllers\ProductoController::class,'registrarTallas']);
+            Route::post('salvarTalla/', [App\Http\Controllers\ProductoController::class, 'salvarTalla']);
+        });
+
         // KILOMETRAJE
         Route::get('/kilometrajes', [App\Http\Controllers\KilometrajeController::class, 'index'])->name('kilometrajes.index');
         Route::get('/kilometrajes/{kilometraje}/edit', [App\Http\Controllers\KilometrajeController::class, 'edit'])->name('kilometrajes.edit');
@@ -93,22 +96,26 @@ Route::group(['middleware' => 'auth'], function() {
             Route::put('autorizar/{id}', [App\Http\Controllers\CotizacionesController::class, 'autorizar']);
         });
 
+        ///------------------------Almacen-------------------------------------
         Route::prefix('almacen')->group(function () {
             Route::get('/', [App\Http\Controllers\AlmacenController::class, 'listAlmacen']);
             Route::get('nuevo/', [App\Http\Controllers\AlmacenController::class, 'createAlmacen']);
             Route::post('registrar', [App\Http\Controllers\AlmacenController::class, 'storeAlmacen']);
-            Route::get('detalles/{id}', [App\Http\Controllers\AlmacenController::class, 'showAlmacen']);
+            Route::get('detalles/{id}', [App\Http\Controllers\AlmacenController::class, 'showAlmacen'])->name('detalleMuestrario');
             Route::put('actualizar/{id}', [App\Http\Controllers\AlmacenController::class, 'updateAlmacen']);
             Route::get('editar/{id}', [App\Http\Controllers\AlmacenController::class, 'editarAlmacen']);
             Route::get('entrega/{id}', [App\Http\Controllers\AlmacenController::class, 'entregaAlmacen']);
             Route::get('eliminar/{id}', [App\Http\Controllers\AlmacenController::class, 'deleteAlmacen']);
             Route::get('entrega/{id}', [App\Http\Controllers\AlmacenController::class, 'entregaAlmacen']);
-            Route::put('entregar/{id}', [App\Http\Controllers\AlmacenController::class, 'entregarAlmacen']);
+            Route::put('devolucion/{id}', [App\Http\Controllers\AlmacenController::class, 'devolucionPrendas']);
+            Route::put('autorizar/{id}', [App\Http\Controllers\AlmacenController::class, 'autorizar']);
             Route::get('infoprenda', [App\Http\Controllers\AlmacenController::class, 'infoPrenda'])->name('infoprenda');
             Route::get('info_categoria', [App\Http\Controllers\AlmacenController::class, 'infoCategoria'])->name('info_categoria');
             Route::get('info_producto', [App\Http\Controllers\AlmacenController::class, 'infoProducto'])->name('info_producto');
             Route::get('info_diseno', [App\Http\Controllers\AlmacenController::class, 'infoDiseno'])->name('info_diseno');
             Route::get('info_entrega', [App\Http\Controllers\AlmacenController::class, 'infoEntrega'])->name('info_entrega');
             Route::get('info_entrega2', [App\Http\Controllers\AlmacenController::class, 'infoEntrega2'])->name('info_entrega2');
+            Route::get('muestras', [App\Http\Controllers\AlmacenController::class, 'muestras'])->name('muestras');
+            Route::get('corridas', [App\Http\Controllers\AlmacenController::class, 'corridas'])->name('corridas');
         });
 });

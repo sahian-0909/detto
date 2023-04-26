@@ -26,10 +26,17 @@
                 <td class="table-primary">Materiales:</td>
                 <td class="table-primary">{{ $producto->materiales }}</td>
             </tr>
-            <tr>
-                <td class="table-primary">Talla:</td>
-                <td class="table-primary">{{ $producto->talla }}</td>
-            </tr>
+            
+                @foreach($tallas as $talla)
+                    @if($talla->id_prenda = $producto->id)
+                    <tr>
+                    <td class="table-primary">Talla:</td>
+                    <td class="table-primary">{{ $talla->talla }}</td>
+                    </tr>
+                    @endif
+
+                @endforeach
+            
             <tr>
                 <td class="table-primary">Precio:</td>
                 <td class="table-primary">{{ $producto->precio }}</td>

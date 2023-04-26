@@ -16,7 +16,6 @@
                     <tr class="table-info">
                         <th scope="col">Codigo</th>
                         <th scope="col">Producto</th>
-                        <th scope="col">Talla</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Sexo</th>
                         <th scope="col">Color</th>
@@ -29,7 +28,6 @@
                     <tr>
                         <td class="table-primary">{{ $producto->codigo }}</td>
                         <td class="table-primary">{{ $producto->producto }}</td>
-                        <td class="table-primary">{{ $producto->talla }}</td>
                         <td class="table-primary">{{ $producto->precio }}</td>
                         <td class="table-primary">{{ $producto->sexo }}</td>
                         <td class="table-primary">{{ $producto->color }}</td>
@@ -43,6 +41,8 @@
                                 href="{{ url('productos/editar', ['id' => $producto->id]) }}">Editar</button></a>
                             <a button type="button" class="btn btn-danger btn-sm"
                                 href="{{ url('productos/eliminar', ['id' => $producto->id]) }}">Borrar</button></a>
+                            <a button type="button" class="btn btn-secondary btn-sm"
+                                href="{{ url('productos/tallas', ['id' => $producto->id]) }}">Tallas</button></a>
                         </td>
                         @endforeach
                     </tr>

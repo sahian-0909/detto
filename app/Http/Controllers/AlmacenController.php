@@ -9,40 +9,82 @@ use App\Models\User as EmpleadosModel;
 use App\Models\Producto as Prendas;
 use App\Models\detalleal as Detalle;
 use App\Models\Categoria as Categorias;
+use App\Models\Tallas as TallasModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
 class AlmacenController extends Controller {
     
-    public function listAlmacen(){
+    public function listAlmacen(Request $request){
         abort_if(Gate::denies('almacen_index'), 403);
-        $almacenes = AlmacenModel::all();
-        $clientes = ClientesModel::all();
-        $empleados = EmpleadosModel::all(); 
-        return view ('almacen/indexalmacen')->with(['almacenes'=>$almacenes])->with(['clientes'=>$clientes])->with(['empleados'=>$empleados]);
+        $empleado = $request->empleado;
+        $estatus = $request->estatus;
+        $fecha = $request->fecha;
+        if ($empleado != '') {
+            $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                ->paginate(15);
+            if ($estatus != '') {
+                $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                    ->where('entregado', '=', $estatus)
+                    ->paginate(15);
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                        ->where('entregado', '=', $estatus)
+                        ->where('dia_salida', '=', $fecha)
+                        ->paginate(15);
+                }
+            }
+        } else {
+            if ($estatus != '') {
+                $almacenes = AlmacenModel::where('entregado', '=', $estatus)
+                    ->paginate(15);
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('entregado', '=', $estatus)
+                        ->where('dia_salida', '=', $fecha)
+                        ->paginate(15);
+                }
+            } else {
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('dia_salida', 'LIKE', '%' . $fecha . '%')
+                        ->paginate(15);
+                } else {
+                    $almacenes = AlmacenModel::paginate(15);
+                }
+            }
+        }
+        $clientes = ClientesModel::paginate(15);
+        $empleados = EmpleadosModel::paginate(15);
+        return view('almacen/indexalmacen')->with(['almacenes' => $almacenes])->with(['clientes' => $clientes])->with(['empleados' => $empleados]);
     }
 
     public function createAlmacen(){
-        $folio = \DB::select('SELECT MAX(id) as folio FROM tb_almacen');
+        $folio = \DB::select('SELECT MAX(folio) as folio FROM tb_almacen');
         $clientes = ClientesModel::all();
         $prendas = Prendas::all();
         $categorias = Categorias::all();
-        return view('almacen/formalmacen')->with(['clientes'=>$clientes])->with(['prendas'=>$prendas])->with(['categorias'=>$categorias])->with(['folio'=>$folio]);
+        $tallas = TallasModel::all();
+        return view('almacen/formalmacen')->with(['clientes' => $clientes])->with(['prendas' => $prendas])->with(['categorias' => $categorias])->with(['folio' => $folio])->with(['tallas' => $tallas]);
     }
 
     public function storeAlmacen (Request $request){
-        $fecha = Carbon::now('America/Mexico_City')->format('Y-m-d H:i:s');
+        //dd($request);
+        $fecha = Carbon::now('America/Mexico_City')->format('Y-m-d');
         $almacen = new AlmacenModel;
         $almacen->id_empleado = request('id_empleado');
-        $almacen->id_autorizacion = request('id_autorizacion');
         $almacen->id_cliente = request('id_cliente');
+        $almacen->autorizado = request('autorizado');
         $almacen->comentarios = request('comentarios');
-        $almacen->dia_salida = $fecha;
+        $almacen->entregado = 0;
+        $almacen->tipo = request('tip_entrega');
+        if ($request->filled('dia_salida')) {
+            $almacen->dia_salida = request('dia_salida');
+        } else {
+            $almacen->dia_salida = $fecha;
+        }
         $almacen->save();
 
         $folio = $request->get('folio');
         $id_prenda = $request->get('id_prenda');
-        $tip_entrega = $request->get('tip_entrega');
         $tip_prenda = $request->get('tip_prenda');
         $producto = $request->get('producto');
         $color = $request->get('color');
@@ -50,29 +92,35 @@ class AlmacenController extends Controller {
         $tallas = $request->get('tallas');
 
         $cont = 0;
-        while($cont < count($id_prenda)){
+        while ($cont < count($id_prenda)) {
             $detalle = new Detalle;
             $detalle->folio = $folio;
             $detalle->id_prenda = $id_prenda[$cont];
-            $detalle->tip_entrega = $tip_entrega[$cont];
             $detalle->tip_prenda = $tip_prenda[$cont];
             $detalle->producto = $producto[$cont];
             $detalle->color = $color[$cont];
             $detalle->codigo = $codigo[$cont];
             $detalle->tallas = $tallas[$cont];
+            $detalle->devolucion = 0;
+            $detalle->comentarios = '';
             $detalle->save();
-            $cont = $cont+1;
+            $cont = $cont + 1;
         }
         return redirect()->to('almacen/');
     }
 
     public function showAlmacen($id) {
-        $folio= $id;
-        $detalles = Detalle::where('folio', '=', $folio)->get();
-        $almacenes = AlmacenModel::findOrFail($id);
-        $users = EmpleadosModel::all();
-        $clientes = ClientesModel::all();
-        return view('almacen/detalle')->with('almacenes', $almacenes)->with('detalles', $detalles)->with('users', $users)->with('clientes', $clientes);
+        $almacen = AlmacenModel::join('users', 'tb_almacen.id_empleado', '=', 'users.id')
+            ->join('clientes', 'tb_almacen.id_cliente', '=', 'clientes.id_cliente')
+            ->select('clientes.*', 'tb_almacen.folio', 'tb_almacen.tipo', 'tb_almacen.entregado', 'tb_almacen.autorizado', 'users.name')
+            ->where('tb_almacen.folio', '=', $id)
+            ->get();
+        $detalles = AlmacenModel::join('tb_detalleal', 'tb_almacen.folio', '=', 'tb_detalleal.folio')
+        ->join('productos', 'tb_detalleal.id_prenda', '=', 'productos.id')
+        ->select('tb_detalleal.*', 'productos.*')
+        ->where('tb_almacen.folio', '=', $id)
+        ->get();
+        return view('almacen/detalle')->with(['almacen' => $almacen, 'detalles' => $detalles]);
     }
 
     public function updateAlmacen(Request $request, $id) {
@@ -91,7 +139,7 @@ class AlmacenController extends Controller {
     public function editarAlmacen(AlmacenModel $id){
         $almacenes = AlmacenModel::all();
         $clientes = ClientesModel::all();
-        return view('almacen/editar')->with(['almacen'=> $id])->with(['almacenes'=>$almacenes])->with(['clientes'=>$clientes]); 
+        return view('almacen/editar')->with(['almacen' => $id])->with(['almacenes' => $almacenes])->with(['clientes' => $clientes]);
     }
 
     public function deleteAlmacen(AlmacenModel $id){
@@ -103,24 +151,28 @@ class AlmacenController extends Controller {
     public function infoPrenda(Request $request){
         $id_prenda = $request->get('id_prenda');
         $prenda = Prendas::where('id', '=', $id_prenda)->get();
+        $tallas = TallasModel::where('id_prenda', '=', $id_prenda)->get();
         //dd($prenda);
-        return view("almacen/datosprenda")->with(['prendas'=> $prenda]);
+        return view("almacen/datosprenda")->with(['prendas' => $prenda])->with(['tallas' => $tallas]);
     }
 
     public function infoCategoria(){
         $categorias = Categorias::all();
         //dd($cliente);
-        return view("almacen/datos_categoria")->with(['categorias'=> $categorias]);
+        return view("almacen/datos_categoria")->with(['categorias' => $categorias]);
     }
 
     public function infoProducto(Request $request){
         $id_categoria = $request->get('id_categoria');
         $prendas = Prendas::where('id_categoria', '=', $id_categoria)->get();
         //dd($prenda);
-        return view("almacen/datos_producto")->with(['prendas'=> $prendas]);
+        return view("almacen/datos_producto")->with(['prendas' => $prendas]);
     }
     public function infoDiseno(){
-        return view("almacen/datos_diseno");
+        $prendas = Prendas::where('id_categoria', '=', '4')->get();
+        //dd($prenda);
+        return view("almacen/datos_producto")->with(['prendas' => $prendas]);
+        //return view("almacen/datos_diseno");
     }
 
     public function infoEntrega(){
@@ -131,22 +183,142 @@ class AlmacenController extends Controller {
         return view("almacen/datos_entrega2");
     }
 
-    public function entregaAlmacen(AlmacenModel $id){
-        $almacenes = AlmacenModel::all();
-        $clientes = ClientesModel::all();
-        return view('almacen/entrega')->with(['almacen'=> $id])->with(['almacenes'=>$almacenes])->with(['clientes'=>$clientes]); 
+    public function entregaAlmacen($id){
+        $almacen = AlmacenModel::join('users', 'tb_almacen.id_empleado', '=', 'users.id')
+            ->join('clientes', 'tb_almacen.id_cliente', '=', 'clientes.id_cliente')
+            ->select('clientes.*', 'tb_almacen.folio as folio', 'tb_almacen.tipo', 'users.name')
+            ->where('tb_almacen.folio', '=', $id)
+            ->get();
+        $detalles = AlmacenModel::join('tb_detalleal', 'tb_almacen.folio', '=', 'tb_detalleal.folio')
+            ->join('productos', 'tb_detalleal.id_prenda', '=', 'productos.id')
+            ->select('tb_detalleal.folio AS id_detalle', 'productos.*')
+            ->where('tb_almacen.folio', '=', $id)
+            ->get();
+        return view('almacen/entrega')->with(['almacen' => $almacen, 'detalles' => $detalles]);
     }
-    public function entregarAlmacen(Request $request, $id) {
+    public function devolucionPrendas(Request $request, $id) {
         //dd($request);
-        $fecha = Carbon::now('America/Mexico_City')->format('Y-m-d H:i:s');
         $almacen = AlmacenModel::find($id);
-        $almacen->id_empleado = $request->get('id_empleado');
-        $almacen->id_cliente = $request->get('id_cliente');
-        $almacen->id_autorizacion = $request->get('id_autorizacion');
-        $almacen->dia_entrada = $fecha;
-        $almacen->entregado = $request->get('entregado');
-        $almacen->comentarios = $request->get('comentarios');
+        $almacen->entregado = $request->get('estatus');
         $almacen->update();
-        return redirect()->to('almacen/');
+
+        $id_detalle = $request->get('id_detalle');
+        $devolucion = $request->get('devolucion');
+        $comentarios = $request->get('comentariosEntrega');
+        $folio = $request->get('folio');
+
+        $cont = 0;
+        while($cont < count($id_detalle)){
+            $detalle = Detalle::find($id_detalle[$cont]);
+            $detalle->devolucion = $devolucion[$cont];
+            $detalle->comentarios = $comentarios[$cont];
+            $detalle->update();
+            $cont = $cont + 1;
+        }
+
+        return redirect()->route('detalleMuestrario',['id'=>$folio]);
+    }
+
+    public function muestras(Request $request) {
+        $empleado = $request->empleado;
+        $estatus = $request->estatus;
+        $fecha = $request->fecha;
+        if ($empleado != '') {
+            $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                ->where('tipo', '=', "Muestra")
+                ->paginate(15);
+            if ($estatus != '') {
+                $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                    ->where('entregado', '=', $estatus)
+                    ->where('tipo', '=', "Muestra")
+                    ->paginate(15);
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                        ->where('entregado', '=', $estatus)
+                        ->where('dia_salida', '=', $fecha)
+                        ->where('tipo', '=', "Muestra")
+                        ->paginate(15);
+                }
+            }
+        } else {
+            if ($estatus != '') {
+                $almacenes = AlmacenModel::where('entregado', '=', $estatus)
+                    ->where('tipo', '=', "Muestra")
+                    ->paginate(15);
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('entregado', '=', $estatus)
+                        ->where('tipo', '=', "Muestra")
+                        ->where('dia_salida', '=', $fecha)
+                        ->paginate(15);
+                }
+            } else {
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('dia_salida', 'LIKE', '%' . $fecha . '%')
+                        ->where('tipo', '=', "Muestra")
+                        ->paginate(15);
+                } else {
+                    $almacenes = AlmacenModel::where('tipo', '=', "Muestra")->paginate(15);
+                }
+            }
+        }
+        //$almacenes = AlmacenModel::paginate(15);
+        $clientes = ClientesModel::paginate(15);
+        $empleados = EmpleadosModel::paginate(15);
+        return view('almacen/indexalmacenmuestras')->with(['almacenes' => $almacenes])->with(['clientes' => $clientes])->with(['empleados' => $empleados]);
+    }
+
+    public function corridas(Request $request) {
+        $empleado = $request->empleado;
+        $estatus = $request->estatus;
+        $fecha = $request->fecha;
+        if ($empleado != '') {
+            $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                ->where('tipo', '=', "Corrida")
+                ->paginate(15);
+            if ($estatus != '') {
+                $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                    ->where('entregado', '=', $estatus)
+                    ->where('tipo', '=', "Corrida")
+                    ->paginate(15);
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('id_empleado', 'LIKE', '%' . $empleado . '%')
+                        ->where('entregado', '=', $estatus)
+                        ->where('dia_salida', '=', $fecha)
+                        ->where('tipo', '=', "Corrida")
+                        ->paginate(15);
+                }
+            }
+        } else {
+            if ($estatus != '') {
+                $almacenes = AlmacenModel::where('entregado', '=', $estatus)
+                    ->where('tipo', '=', "Corrida")
+                    ->paginate(15);
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('entregado', '=', $estatus)
+                        ->where('tipo', '=', "Corrida")
+                        ->where('dia_salida', '=', $fecha)
+                        ->paginate(15);
+                }
+            } else {
+                if ($fecha != '') {
+                    $almacenes = AlmacenModel::where('dia_salida', 'LIKE', '%' . $fecha . '%')
+                        ->where('tipo', '=', "Corrida")
+                        ->paginate(15);
+                } else {
+                    $almacenes = AlmacenModel::where('tipo', '=', "Corrida")->paginate(15);
+                }
+            }
+        }
+        //$almacenes = AlmacenModel::paginate(15);
+        $clientes = ClientesModel::paginate(15);
+        $empleados = EmpleadosModel::paginate(15);
+        return view('almacen/indexalmacencorrida')->with(['almacenes' => $almacenes])->with(['clientes' => $clientes])->with(['empleados' => $empleados]);
+    }
+
+    public function autorizar(Request $request, $id){
+        $autorizacion = AlmacenModel::find($id);
+        $autorizacion->autorizado = 1;
+        $autorizacion->update();
+        return redirect()->route('detalleMuestrario',['id'=>$id]);
     }
 }

@@ -27,6 +27,7 @@ class CreateCotizacionsTable extends Migration
             $table->Double('anticipo')->nullable()->default(0);
             $table->Double('resto')->nullable()->default(0);
             $table->Double('ganancias')->nullable()->default(0);
+            $table->date('fecha_realizacion');
             $table->timestamps();
         });
     }

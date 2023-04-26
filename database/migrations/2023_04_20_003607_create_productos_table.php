@@ -20,7 +20,6 @@ class CreateProductosTable extends Migration
             $table->string('descripcion');
             $table->string('unidad');
             $table->string('materiales');
-            $table->string('talla');
             $table->double('precio');
             $table->string('sexo');
             $table->string('color');

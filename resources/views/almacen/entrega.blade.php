@@ -1,81 +1,78 @@
 @extends('layouts.admin')
+@section('titulo', 'Muestrario')
 @section('contenido')
-    <div class="container">
-        <title>Actualizar Registro</title>
-        <h1>Actualizar un Registro</h1><br>
-        <form action="{{ url('almacen/entregar/'. $almacen->id) }}" method="POST" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            @method('PUT')
-            <div class="row">
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="id_empleado" class="form-label">Empleado</label>
-                    <input type="text" class="form-control" name="id_empleado" id="id_empleado" value="{{ $almacen->id_empleado }}" readonly>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="id_autorizacion" class="form-label">Autorizacion</label>
-                    <input type="text" class="form-control" name="id_autorizacion" id="id_autorizacion" value="{{ $almacen->id_autorizacion }}" readonly>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="id_cliente" class="form-label">Cliente</label>
-                    <input class="form-control" list="datalistClientes" name="id_cliente" id="id_cliente" placeholder="-- Selecciona un Cliente --" value="{{ $almacen->id_cliente }}" readonly>
-                    <datalist id="datalistClientes">
-                        <option value="">Selecciona un cliente</option>
-                        @foreach ($clientes as $clientes)
-                        <option value="{{$clientes->id_cliente}}"> {{$clientes->nombre_compania}}</option>
-                        @endforeach
-                    </datalist>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="comentarios" class="form-label">Comentarios</label>
-                    <input type="text" class="form-control" name="comentarios" id="comentarios" value="{{ $almacen->comentarios }}" readonly>
-                </div>
-            </div>
-            <div class="row my-1" id="info_cliente"></div>
-            <div class="row my-1">
-            <br>
-            <div class="row-1">
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="dia_entrada" class="form-label">Dia entrada</label>
-                    <input type="date" class="form-control" name="dia_salida" id="dia_salida" value="{{ $almacen->dia_salida }}" readonly>
-                </div>
-                <br>
-            </div>
-            <br>
-            <div class="row-1">
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <select class="form-select" aria-label="entregado" name="entregado" id="entregado" >
-                        <option value="">Entregado</option>
-                        <option value="0">No entregado</option>
+@foreach ($almacen as $almacen)
+<div class="row my-1">
+    <div class="col-9">
+        <h3 class="fs-4 mb-3">Detalles de Salida</h3>
+    </div>
+</div>
+<form action="{{ url('almacen/devolucion/'.$almacen->folio)}}" method="post">
+    @csrf
+    @method('put')
+    <input type="hidden" name="folio" value="{{ $almacen->folio }}">
+    <div class="row my-1">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <b>{{$almacen->nombre_compania}}</b> <br>
+                <b>Representante:</b> {{$almacen->nombre_contacto}} | Telefono: {{$almacen->telefono_contacto}} |
+                Correo: {{ $almacen->correo_contacto}}
+                <p><b>Datos de Domicilio:</b> {{$almacen->domicilio_compania}} <br>
+                    <b>Estatus: </b>
+                    <select name="estatus" id="" class="form-control form-control-sm">
+                        <option value="0">Pendiente</option>
                         <option value="1">Entregado</option>
                     </select>
-                </div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="row">
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <input type="submit" value="Guardar Datos" class="btn btn-success">
-                    </div>
-                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                        <input type="reset" value="Cancelar Registro" class="btn btn-danger">
-                    </div>
-                </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+            <div class="form-group">
+                <p><b>Detto Uniformes S.A de C.V</b></p>
+                <b>Fecha/Hora de Elaboración:</b> {{$almacen->fecha_creacion}} <br>
+                <b>Elaborado por:</b> {{$almacen->name}} {{$almacen->app}} <br>
+                <b>Tipo de Salida</b> {{ $almacen->tipo}} <br>
+                <b>Autorizado: </b> @if($almacen->autorizado == 0 ) No @else Si @endif <br>
+
             </div>
-        </form>
+        </div>
     </div>
-    <script>
-        $(document).ready(function () {
-            $("#id_cliente").change(function () {
-            var cliente = $("#id_cliente").val();
-            //alert(materia);
-            if (cliente == 0) {
-                $("#info_cliente").empty();
-            } else {
-                $("#info_cliente").load("{{ route('info_cliente') }}?id_cliente=" + cliente).css({"border": "2px solid #9B3030", "padding": "10px", "border-radius": "25px"});
-            }
-        });    
-        });
-    </script>
+    <hr>
+    <div class="row my-1">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table bg-white rounded shadow-sm  table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Devolución</th>
+                            <th scope="col" width="50">Cód.</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Comentarios de Entrega</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach ($detalles as $detalle)
+                        <tr class="text-center">
+                            <td>
+                                <input type="hidden" name="id_detalle[]" value="{{ $detalle->id_detalle}} "> 
+                                <select name="devolucion[]" id="" class="form-select form-sm">
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </td>
+                            <td>{{ $detalle->codigo }}</td>
+                            <td>{{ $detalle->unidad }}</td>
+                            <td>{{ $detalle->descripcion }}</td>
+                            <td> <input type="text" name="comentariosEntrega[]" id=""
+                                    class="form-control form-control-sm" value="Sin Com."> </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="submit" value="Entregar" class="btn btn-success">
+    </div>
+</form>
+@endforeach
 @endsection

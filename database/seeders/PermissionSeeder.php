@@ -41,6 +41,8 @@ class PermissionSeeder extends Seeder
             'cotizacion_show',
             'cotizacion_edit',
             'cotizacion_destroy',
+            
+            'autorizar',
 
             'viatico_index',
             'viatico_create',

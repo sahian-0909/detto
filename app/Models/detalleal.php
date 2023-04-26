@@ -19,5 +19,6 @@ class detalleal extends Model
         'producto',
         'color',
         'codigo',
+        'tallas',
     ];
 }

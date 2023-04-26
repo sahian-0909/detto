@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto as ProductosModel;
 use App\Models\Categoria as CategoriasModel;
+use App\Models\Tallas as TallasModel;
 use Illuminate\Support\Facades\Gate;
 
 class ProductoController extends Controller
@@ -27,7 +28,6 @@ class ProductoController extends Controller
             'descripcion'=> 'required',
             'unidad'=> 'required',
             'materiales'=> 'required',
-            'talla'=> 'required',
             'precio'=> 'required',
             'sexo'=> 'required',
             'color'=> 'required',
@@ -45,7 +45,6 @@ class ProductoController extends Controller
             'descripcion' => $request->input('descripcion'),
             'unidad' => $request->input('unidad'),
             'materiales' => $request->input('materiales'),
-            'talla' => $request->input('talla'),
             'precio' => $request->input('precio'),
             'sexo' => $request->input('sexo'),
             'color' => $request->input('color'),
@@ -57,8 +56,9 @@ class ProductoController extends Controller
 
     public function detalleProducto($id){
         $producto = ProductosModel::find($id);
+        $tallas = TallasModel::where('id_prenda', '=', $id)->get();
         $categorias = CategoriasModel::all();
-        return view ('productos/detalleproducto')->with(['producto'=>$producto])->with(['categorias'=>$categorias]);
+        return view ('productos/detalleproducto')->with(['producto'=>$producto])->with(['categorias'=>$categorias])->with(['tallas'=>$tallas]);
     }
 
     public function borrarProducto(ProductosModel $id){
@@ -98,5 +98,21 @@ class ProductoController extends Controller
         $query->id_categoria = $request->id_categoria;
         $query->update();
         return redirect()->route('detalleProducto',['id'=>$id->id]);
+    }
+    public function registrarTallas($id){
+        $producto = ProductosModel::find($id);
+        return view('productos/tallas')-> with(['producto'=>$producto]);
+    }
+
+    public function salvarTalla(Request $request){
+        $request -> validate([
+            'id_prenda'=> 'required',
+            'talla'=> 'required',
+        ]);
+        $al = TallasModel::create(array(
+            'id_prenda' => $request->input('id_prenda'),
+            'talla' => $request->input('talla'),
+        ));
+        return redirect()->to('productos/');
     }
 }

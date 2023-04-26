@@ -17,12 +17,13 @@ class CreateDetallealTable extends Migration
             $table->id();
             $table->string('folio');
             $table->integer('id_prenda')->nullable()->default(9999);
-            $table->string('tip_entrega');
             $table->string('tip_prenda');
             $table->string('tallas');
             $table->string('producto');
             $table->string('color');
             $table->string('codigo');
+            $table->boolean('devolucion');
+            $table->text('comentarios');
             $table->timestamps();
         });
     }

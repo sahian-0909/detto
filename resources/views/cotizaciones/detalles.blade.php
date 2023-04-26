@@ -23,10 +23,10 @@
             <p><b>Detto Uniformes S.A de C.V</b></p>
             <b>Fecha/Hora de Elaboración:</b> {{$cotizacion->fecha_creacion}} <br>
             <b>Elaborado por:</b> {{$cotizacion->name}} {{$cotizacion->app}} <br>
-            <b>Autorizado: </b> @if($cotizacion->autizado == 0 ) No @else Si @endif <br>
-            {{-- Solo si es administrador --}}
-            <b>Ganancias: </b> ${{$cotizacion->ganancias}}
-
+            <b>Autorizado: </b> @if($cotizacion->autorizado == 0 ) No @else Si @endif <br>
+            @can('autorizar')
+                <b>Ganancias: </b> ${{$cotizacion->ganancias}}
+            @endcan
         </div>
     </div>
 </div>
