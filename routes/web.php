@@ -7,12 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\KilometrajeController;
 use App\Http\Controllers\ViaticoController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/inicio', [App\Http\Controllers\Controller::class, 'inicio'])->name('inicio');
-Route::get('/home', [App\Http\Controllers\Controller::class, 'home'])->name('home');
 
 Route::get('indexAdmi', function () {
     return view('layouts.admin');
@@ -20,6 +15,8 @@ Route::get('indexAdmi', function () {
 
 
 Route::group(['middleware' => 'auth'], function() {
+
+    Route::get('/', [App\Http\Controllers\Controller::class, 'home']);
 
     Route::get('/users/create', [App\Http\Controllers\UserController::class, 'create'])->name('users.create');
     Route::post('/users', [App\Http\Controllers\UserController::class, 'store'])->name('users.store');
@@ -78,6 +75,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::put('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'update'])->name('viaticos.update');
         Route::delete('/viaticos/{viatico}', [App\Http\Controllers\ViaticoController::class, 'destroy'])->name('viaticos.delete');
         Route::get('/buscar', [App\Http\Controllers\ViaticoController::class, 'buscar'])->name('viaticos.buscar');
+        Route::get('/buscarf', [App\Http\Controllers\ViaticoController::class, 'buscarf'])->name('viaticos.buscarfecha');
 
         Route::get('change_status/viaticos/{viatico}', [ViaticoController::class, 'change_status'])->name('change.status.viaticos');
 
@@ -111,4 +109,6 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('info_entrega', [App\Http\Controllers\AlmacenController::class, 'infoEntrega'])->name('info_entrega');
             Route::get('info_entrega2', [App\Http\Controllers\AlmacenController::class, 'infoEntrega2'])->name('info_entrega2');
         });
+
+        Route::get('/home', [App\Http\Controllers\Controller::class, 'home'])->name('home');
 });

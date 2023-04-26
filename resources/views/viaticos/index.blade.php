@@ -24,7 +24,21 @@
                             </div>
                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                                 <br>
-                                <input type="submit" value="Buscar" class="btn btn-sm btn-info col-4">
+                                <input type="submit" value="Buscar" class="btn btn-info col-lg-4">
+                            </div>
+                        </div>
+                    </form>
+                    <form action="{{ route('viaticos.buscarfecha')}}" method="GET" name="buscar">
+                        <div class="row my-1">
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                Fecha inicial<input type="date" name="fi" class="form-control">
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                Fecha final<input type="date" name="ff" class="form-control">
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                <br>
+                                <input type="submit" value="Buscar" class="btn btn-info col-lg-4">
                             </div>
                         </div>
                     </form>

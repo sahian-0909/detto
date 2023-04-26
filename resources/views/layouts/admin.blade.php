@@ -19,7 +19,7 @@
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                     class="fas fa-user-secret me-2"></i>Detto Uniformes</div>
             <div class="list-group list-group-flush my-3">
-                <a href="{{ url('inicio') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
+                <a href="{{ url('home') }}" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <i class="fa-solid fa-house"></i> Inicio</a>
                     @can('prenda_index')
                 <a href="{{ url('productos/') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">

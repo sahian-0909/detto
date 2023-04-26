@@ -101,7 +101,20 @@ class ViaticoController extends Controller
         $estatus = $request->get('estatus');
         $viaticos_admin = Viatico::where('user_id', $user_id)
             ->orwhere('estatus', $estatus)
-            ->paginate(10);
+            ->paginate(15);
+        $empleados = User::get();
+        $pendientes = Viatico::where('estatus', 'PENDIENTE')->count();
+        return view('viaticos.index', compact('viaticos_admin', 'pendientes', 'empleados', 'user'));
+
+    }
+    public function buscarf(Request $request)
+    {
+        $user = Auth::user()->roles;
+        $fi = $request->get('fi');
+        $ff = $request->get('ff');
+        $viaticos_admin = Viatico::where('fecha', ">=", $fi)
+            ->where('fecha', '<=', $ff)
+            ->paginate(20);
         $empleados = User::get();
         $pendientes = Viatico::where('estatus', 'PENDIENTE')->count();
         return view('viaticos.index', compact('viaticos_admin', 'pendientes', 'empleados', 'user'));
