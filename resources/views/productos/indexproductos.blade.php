@@ -9,8 +9,6 @@
                 href="{{ url('productos/agregar') }}">Agregar</button></a>
             <a button type="button" class="btn btn-info btn-sm"
                 href="{{ url('indexCategoria') }}">Categorias</button></a>
-            <a button type="button" class="btn btn-info btn-sm"
-                href="{{ url('productos/tallas') }}">Asignar Tallas</button></a>
         </div>
         <div class="table-responsive">
             <table class="table text-center align-middle table-bordered table-hover mb-0">

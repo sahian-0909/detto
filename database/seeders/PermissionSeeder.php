@@ -41,8 +41,6 @@ class PermissionSeeder extends Seeder
             'cotizacion_show',
             'cotizacion_edit',
             'cotizacion_destroy',
-            
-            'autorizar',
 
             'viatico_index',
             'viatico_create',
@@ -73,6 +71,8 @@ class PermissionSeeder extends Seeder
             'prenda_show',
             'prenda_edit',
             'prenda_destroy',
+
+            'autorizar',
         ];
 
         foreach ($permissions as $permission) {

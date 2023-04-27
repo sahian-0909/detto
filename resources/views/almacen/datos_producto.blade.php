@@ -1,13 +1,14 @@
-<div class="row">
+
     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+        <label for="">Prenda</label>
         <select class="form-select mb-3" aria-label="id_prenda" name="id_prenda" id="id_prenda">
-            <option value="0">Selecciona un producto:</option>
+            <option value="0">Selecciona una prenda:</option>
             @foreach ($prendas as $prenda)
-                <option value="{{ $prenda->id }}">{{ $prenda->producto }}</option>
+                <option value="{{ $prenda->id }}">{{ $prenda->producto }}, T:{{$prenda->talla}}</option>
             @endforeach
         </select>
     </div>
-</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#id_prenda").change(function() {

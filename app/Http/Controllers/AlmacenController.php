@@ -117,7 +117,7 @@ class AlmacenController extends Controller {
             ->get();
         $detalles = AlmacenModel::join('tb_detalleal', 'tb_almacen.folio', '=', 'tb_detalleal.folio')
         ->join('productos', 'tb_detalleal.id_prenda', '=', 'productos.id')
-        ->select('tb_detalleal.*', 'productos.*')
+        ->select('tb_detalleal.*', 'productos.descripcion', 'productos.unidad', 'productos.codigo')
         ->where('tb_almacen.folio', '=', $id)
         ->get();
         return view('almacen/detalle')->with(['almacen' => $almacen, 'detalles' => $detalles]);
@@ -150,10 +150,9 @@ class AlmacenController extends Controller {
 
     public function infoPrenda(Request $request){
         $id_prenda = $request->get('id_prenda');
-        $prenda = Prendas::where('id', '=', $id_prenda)->get();
-        $tallas = TallasModel::where('id_prenda', '=', $id_prenda)->get();
+        $prenda = Prendas::where('id', $id_prenda)->get();
         //dd($prenda);
-        return view("almacen/datosprenda")->with(['prendas' => $prenda])->with(['tallas' => $tallas]);
+        return view("almacen/datosprenda")->with(['prendas' => $prenda]);
     }
 
     public function infoCategoria(){

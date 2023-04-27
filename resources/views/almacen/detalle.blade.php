@@ -38,7 +38,8 @@
                         <th scope="col">Unidad</th>
                         <th scope="col">Descripción</th>
                         <th scope="col">Estatus</th>
-                        <th scope="col">Comentarios</th>
+                        <th scope="col">Tallas</th>
+                        <th scope="col">Comentarios de Entrega</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -52,6 +53,7 @@
                         @else 
                             <td> Entregada </td>
                         @endif
+                        <td>{{ $detalle->tallas }}</td>
                         <td>{{$detalle->comentarios}}</td>
                     </tr>
                     @endforeach

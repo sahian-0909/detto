@@ -23,6 +23,7 @@ class CreateProductosTable extends Migration
             $table->double('precio');
             $table->string('sexo');
             $table->string('color');
+            $table->string('talla');
             $table->string('imagen');
             $table->integer('id_categoria');
             $table->timestamps();

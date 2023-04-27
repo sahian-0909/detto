@@ -47,6 +47,7 @@ class ProductoController extends Controller
             'materiales' => $request->input('materiales'),
             'precio' => $request->input('precio'),
             'sexo' => $request->input('sexo'),
+            'talla' => $request->input('talla'),
             'color' => $request->input('color'),
             'imagen' => $filename,
             'id_categoria' => $request->input('id_categoria'),

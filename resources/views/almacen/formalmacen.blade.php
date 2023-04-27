@@ -43,58 +43,54 @@
         <br>
         <div class="row my-1" id="info_cliente"></div>
         <div class="row my-1">
-            <div class="row">
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <label for="comentarios" class="form-label">Dia Salida:</label>
-                    <input type="date" class="form-control" name="dia_salida" id="dia_salida">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <label for="comentarios" class="form-label">Dia Salida:</label>
+                <input type="date" class="form-control" name="dia_salida" id="dia_salida">
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
+                <label for=""  class="form-label">Selecciona tipo de prenda</label>
+                <select class="form-select"  aria-label="tip_prenda" name="tip_prenda" id="tip_prenda">
+                    <option value="">Selecciona el tipo de prenda:</option>
+                    <option value="diseño">Diseño</option>
+                    <option value="linea">Linea</option>
+                </select>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div id="info_categoria"></div>     
+            <div id="info_producto"></div>
+        </div>
+        <div class="row my-1" id="info_prenda"></div>
+        <div class="row">
+            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="bt_add">Agregar</button>
                 </div>
             </div>
         </div>
-        <br>
         <div class="row my-1">
-            <div class="row">
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                    <select class="form-select" aria-label="tip_prenda" name="tip_prenda" id="tip_prenda">
-                        <option value="">Selecciona el tipo de prenda:</option>
-                        <option value="diseño">Diseño</option>
-                        <option value="linea">Linea</option>
-                    </select>
-                </div>
-                <br>
-                <div class="row-1" id="info_categoria">
-                </div>
-            </div>
-            <div class="row my-1" id="info_prenda"></div>
-            <div class="row">
-                <div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
-                    <div class="form-group">
-                        <button type="button" class="btn btn-primary" id="bt_add">Agregar</button>
-                    </div>
-                </div>
-            </div>
-            <div class="row my-1">
-                <div class="table-responsive">
-                    <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-                        <thead style="background-color: #9B3030">
-                            <th class="text-white">Opciones</th>
-                            <th class="text-white">Descripción</th>
-                            <th class="text-white">Tipo Salida</th>
-                            <th class="text-white">Tallas</th>
-                        </thead>
-                        <tbody>
+            <div class="table-responsive">
+                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
+                    <thead style="background-color: #9B3030">
+                        <th class="text-white">Opciones</th>
+                        <th class="text-white">Descripción</th>
+                        <th class="text-white">Tipo Salida</th>
+                        <th class="text-white">Tallas</th>
+                    </thead>
+                    <tbody>
 
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" id="guardar">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-primary">Guardar</button>
+                    <a href="{{ url('almacen/') }}" class="btn btn-outline-danger">Cancelar y Regresar</a>
                 </div>
             </div>
-            <div class="row my-1">
-                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" id="guardar">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-outline-primary">Guardar</button>
-                        <a href="{{ url('almacen/') }}" class="btn btn-outline-danger">Cancelar y Regresar</a>
-                    </div>
-                </div>
-            </div>
+        </div>
     </form>
 </div>
 <script>
@@ -144,6 +140,7 @@
             producto = $('#producto').val();
             color = $('#color').val();
             codigo = $('#codigo').val();
+            comentariosPrenda = $("#comentariosPrenda").val();
             if (id_prenda != "") {
                 var fila = '<tr class="selected" id="fila' + cont +
                     '"> <td> <button type="button" class="btn btn-warning" onclick="eliminar(' +
@@ -151,7 +148,7 @@
                     id_prenda + '">' + producto + ', Color:' + color + ', Codigo:' + codigo + '</td>"' +
                     '<td>' +
                     tip_entrega + '<input type="hidden" name=tip_entrega value="' + tip_entrega +
-                    '"></td>"' + '<td>' + tallas + '<input type="hidden" name=tallas[] value="' + tallas +
+                    '"></td>"' + '<td>' + comentariosPrenda + '<input type="hidden" name=tallas[] value="' + comentariosPrenda +
                     '"></td></tr>' + '<input type="hidden" name=tip_prenda[] value="' + tip_prenda + '">' +
                     '<input type="hidden" name=producto[] value="' + producto + '">' +
                     '<input type="hidden" name=color[] value="' + color + '">' +

@@ -17,12 +17,29 @@ class CotizacionesController extends Controller {
 
     public function listCotizacion(Request $request) {
         abort_if(Gate::denies('cotizacion_index'), 403);
-        $cotizaciones = Cotizacion::join('users', 'cotizacions.id_empleado', '=', 'users.id')
-                    ->join('clientes', 'cotizacions.id_cliente', '=', 'clientes.id_cliente')
-                    ->select('cotizacions.folio', 'cotizacions.autorizado', 'users.name', 'cotizacions.total', 'cotizacions.tipo', 'clientes.nombre_compania', 'cotizacions.created_at')
-                    ->orderBy('folio', 'DESC')->paginate(15);
-        //return response()->json(['cotizaciones' => $cotizaciones]);
-        return view('cotizaciones/listado')->with(['cotizaciones' => $cotizaciones]);
+        $usersC = User::all();
+        $clientesC = Clientes::all();
+        $users = User::all();
+        $clientes = Clientes::all();
+
+        $id_empleado = $request->get('id_empleado');
+        $id_cliente = $request->get('id_cliente');
+        $estatus = $request->get('estatus');
+
+        if(isset($id_empleado)){
+            $cotizaciones = Cotizacion::where('id_empleado', '=', $id_empleado)->paginate(15);
+        }else if(isset($id_cliente)) {
+            $cotizaciones = Cotizacion::where('id_cliente', '=', $id_cliente)->paginate(15);
+        }else if(isset($estatus)){
+            $cotizaciones = Cotizacion::where('autorizado', '=', $estatus)->paginate(15);
+        } else {
+            $cotizaciones = Cotizacion::paginate(15);
+        }
+
+        return view('cotizaciones/listado')->with([
+            'cotizaciones' => $cotizaciones, 'clientes' => $clientesC, 
+            'usuarios' => $usersC, 'client' => $clientes, 'user' => $users
+        ]);
     }
     
     public function showCotizacion($id) {
