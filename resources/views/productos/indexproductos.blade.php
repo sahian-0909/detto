@@ -9,6 +9,8 @@
                 href="{{ url('productos/agregar') }}">Agregar</button></a>
             <a button type="button" class="btn btn-info btn-sm"
                 href="{{ url('indexCategoria') }}">Categorias</button></a>
+            <a button type="button" class="btn btn-info btn-sm"
+                href="{{ url('productos/tallas') }}">Asignar Tallas</button></a>
         </div>
         <div class="table-responsive">
             <table class="table text-center align-middle table-bordered table-hover mb-0">
@@ -41,8 +43,6 @@
                                 href="{{ url('productos/editar', ['id' => $producto->id]) }}">Editar</button></a>
                             <a button type="button" class="btn btn-danger btn-sm"
                                 href="{{ url('productos/eliminar', ['id' => $producto->id]) }}">Borrar</button></a>
-                            <a button type="button" class="btn btn-secondary btn-sm"
-                                href="{{ url('productos/tallas', ['id' => $producto->id]) }}">Tallas</button></a>
                         </td>
                         @endforeach
                     </tr>

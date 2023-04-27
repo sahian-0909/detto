@@ -99,8 +99,8 @@ class ProductoController extends Controller
         $query->update();
         return redirect()->route('detalleProducto',['id'=>$id->id]);
     }
-    public function registrarTallas($id){
-        $producto = ProductosModel::find($id);
+    public function registrarTallas(){
+        $producto = ProductosModel::all();
         return view('productos/tallas')-> with(['producto'=>$producto]);
     }
 

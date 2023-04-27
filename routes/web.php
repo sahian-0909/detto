@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('eliminar/{id}', [App\Http\Controllers\ProductoController::class, 'borrarProducto']);
             Route::get('editar/{id}',[App\Http\Controllers\ProductoController::class,'editarProducto']);
             Route::put('actualizarProducto/{id}',[App\Http\Controllers\ProductoController::class,'actualizarProducto']);    
-            Route::get('tallas/{id}',[App\Http\Controllers\ProductoController::class,'registrarTallas']);
+            Route::get('tallas',[App\Http\Controllers\ProductoController::class,'registrarTallas']);
             Route::post('salvarTalla/', [App\Http\Controllers\ProductoController::class, 'salvarTalla']);
         });
 
